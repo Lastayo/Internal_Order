@@ -7,24 +7,22 @@
               </div>
               <br><br><br><br><br><br>
             <ul>
-                <li @click="navigateTo('/dashboard')">
-                    <!-- <img src="/assets/Vector.svg" alt="Dashboard Icon" /> -->
-                    Dashboard</li>
-                <li class="fas fa-home" @click="navigateTo('/user')">User</li>
-                <li @click="navigateTo('/employee')">Employee</li>
-                <li @click="toggleDropdown('internalOrder')">Internal Order
+                <li @click="navigateTo('/dashboard')"><i class="fas fa-home px-3"></i>Dashboard</li>
+                <li @click="navigateTo('/user')"><i class="fas fa-user px-3"></i>User</li>
+                <li @click="navigateTo('/employee')"><i class="fas fa-clipboard-user px-3"></i>Employee</li>
+                <li @click="toggleDropdown('internalOrder')"><i class="fas fa-receipt px-3"></i>Internal Order<i class="fas fa-greater-than px-10 fa-2xs"></i>
                     <ul v-if="dropdowns.internalOrder">
                         <li @click="navigateTo('/internal-order/item1')">Order</li>
                         <li @click="navigateTo('/internal-order/item2')">Repository</li>
                     </ul>
                 </li>
-                <li @click="toggleDropdown('projectCharter')">Project Charter
+                <li @click="toggleDropdown('projectCharter')"><i class="fas fa-clipboard-list px-3"></i>Project Charter<i class="fas fa-greater-than px-9 fa-2xs"></i>
                     <ul v-if="dropdowns.projectCharter">
                         <li @click="navigateTo('/project-charter/item1')">Order</li>
                         <li @click="navigateTo('/project-charter/item2')">Repository</li>
                     </ul>
                 </li>
-                <li @click="navigateTo('/logout')">Logout</li>
+                <li @click="navigateTo('/logout')"><i class="fas fa-right-from-bracket px-3"></i>Logout</li>
             </ul>
         </nav>
     </aside>
@@ -52,7 +50,7 @@ export default {
 </script>
   
 <style scoped>
-
+@import '@fortawesome/fontawesome-free/css/all.css';
 .sidebar {
     width: 270px;
     background-color: #ffffff;
@@ -61,7 +59,7 @@ export default {
     height: 100vh; /* Full height of the viewport */
     top: 0; /* Align to the top of the viewport */
     left: 0; /* Align to the left of the viewport */
-    padding-left: 40px;
+    padding-left: 5px;
     padding-top: 20px; /* Add some padding at the top */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add a subtle box shadow for depth */
 }
