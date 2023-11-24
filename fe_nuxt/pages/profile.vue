@@ -4,7 +4,6 @@
       <LayoutsSidebar />
       <div class="welcome-box">
         <h1>Welcome Guys</h1>
-        <P> woi bro</P>
       </div>
     </div>
   </template>
