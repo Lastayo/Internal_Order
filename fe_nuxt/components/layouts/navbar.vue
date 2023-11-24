@@ -1,23 +1,25 @@
 <template>
     <div>
         <nav>
-            <div class="background-pages" >
-            </div>
         </nav>
+            <div class="background-pages">
+            </div>
+        
     </div>
 </template>
   
 <style scoped>
 .background-pages {
-    background-color: #CFD9E0;
+    background-color: #e4eaf0;
     /* Your desired background color */
-    padding: 100%;
+    height: 91vh; /* Gunakan tinggi 100% dari viewport height */
 }
 
 nav {
     background-color: #ffffff;
-    padding: 5rem;
+    height: 9vh;
+
+    
     /* padding-bottom: 20px; */
 }
 </style>
-  
