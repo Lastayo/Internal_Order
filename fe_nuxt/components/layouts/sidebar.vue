@@ -1,46 +1,52 @@
 <template>
-    <aside class="sidebar">
-        <nav>
-            <div class="order-first hidden w-full lg:block">
-                <img class="object-cover h-full bg-cover rounded-l-lg content-center py-3 with-shadow centered-image"
-                    src="assets/Telkomsigma-baru.svg" alt="" />
-            </div>
-            <br><br><br><br><br>
-            <ul>
-                <li @click="navigateTo('/dashbord')"><i class="fas fa-home px-3"></i>Dashboard</li>
-                <li @click="navigateTo('/user')"><i class="fas fa-user px-3"></i>User</li>
-                <li @click="navigateTo('/employee')"><i class="fas fa-clipboard-user px-3"></i>Employee</li>
-                <li @click="toggleDropdown('internalOrder')"><i class="fas fa-receipt px-3"></i>Internal Order<i
-                        class="fas fa-greater-than px-9 fa-2xs"></i>
-                    <ul v-if="dropdowns.internalOrder">
-                        <li @click="navigateTo('/internal-order/item1')"><i class="fas fa-circle fa-2xs px-3"></i>Order</li>
-                        <li @click="navigateTo('/internal-order/item2')"><i class="fas fa-circle fa-2xs px-3"></i>Repository</li>
-                    </ul>
-                </li>
-                <li @click="toggleDropdown('projectCharter')"><i class="fas fa-clipboard-list px-3"></i>Project Charter<i
-                        class="fas fa-greater-than px-7 fa-2xs"></i>
-                    <ul v-if="dropdowns.projectCharter">
-                        <li @click="navigateTo('/project-charter/item1')"><i class="fas fa-circle fa-2xs px-3"></i>Order</li>
-                        <li @click="navigateTo('/project-charter/item2')"><i class="fas fa-circle fa-2xs px-3"></i>Repository</li>
-                    </ul>
-                </li>
-                <li @click="navigateTo('/logout')"><i class="fas fa-right-from-bracket px-3"></i>Logout</li>
-            </ul>
-            <br><br><br><br><br><br><br><br><br>
-            
-            <div  @click="navigateTo('/profile')" class="profile-section">
-               
-                <div class="profile-info">
-                    <img class="profile-picture" src="assets/haikal-profile.jpg" alt="Profile Picture" />
-                    <div class="user-info">
-                        <div class="username">Haikal Adibasta</div>
-                        <div class="email">superhaikal@gmail.com</div>
-                    </div>
+    <aside class="bar">
+        <div class="sidebar">
+            <nav>
+                <div class="order-first hidden w-full lg:block">
+                    <img class="object-cover h-full bg-cover rounded-l-lg content-center py-3 with-shadow centered-image"
+                        src="assets/Telkomsigma-baru.svg" alt="" />
+                </div>
+                <br><br><br><br><br>
+                <ul>
+                    <li @click="navigateTo('/dashbord')"><i class="fas fa-home px-3"></i>Dashboard</li>
+                    <li @click="navigateTo('/user')"><i class="fas fa-user px-3"></i>User</li>
+                    <li @click="navigateTo('/employee')"><i class="fas fa-clipboard-user px-3"></i>Employee</li>
+                    <li @click="toggleDropdown('internalOrder')"><i class="fas fa-receipt px-3"></i>Internal Order<i
+                            class="fas fa-greater-than px-9 fa-2xs"></i>
+                        <ul v-if="dropdowns.internalOrder">
+                            <li @click="navigateTo('/internal-order/item1')"><i class="fas fa-circle fa-2xs px-3"></i>Order
+                            </li>
+                            <li @click="navigateTo('/internal-order/item2')"><i
+                                    class="fas fa-circle fa-2xs px-3"></i>Repository
+                            </li>
+                        </ul>
+                    </li>
+                    <li @click="toggleDropdown('projectCharter')"><i class="fas fa-clipboard-list px-3"></i>Project
+                        Charter<i class="fas fa-greater-than px-7 fa-2xs"></i>
+                        <ul v-if="dropdowns.projectCharter">
+                            <li @click="navigateTo('/project-charter/item1')"><i class="fas fa-circle fa-2xs px-3"></i>Order
+                            </li>
+                            <li @click="navigateTo('/project-charter/item2')"><i
+                                    class="fas fa-circle fa-2xs px-3"></i>Repository</li>
+                        </ul>
+                    </li>
+                    <li @click="navigateTo('/logout')"><i class="fas fa-right-from-bracket px-3"></i>Logout</li>
+                </ul>
+                <!-- <br><br><br><br><br><br><br><br> -->
+
+
+            </nav>
+        </div>
+        <div @click="navigateTo('/profile')" class="profile-section">
+
+            <div class="profile-info">
+                <img class="profile-picture" src="assets/haikal-profile.jpg" alt="Profile Picture" />
+                <div class="user-info">
+                    <div class="username">Haikal Adibasta</div>
+                    <div class="email">superhaikal@gmail.com</div>
                 </div>
             </div>
-        </nav>
-        
-        
+        </div>
     </aside>
 </template>
   
@@ -76,27 +82,35 @@ export default {
 }
 
 .username {
-    font-weight:normal;
-    font-size: 14px; /* Adjust the font size for username */
-    
+    font-weight: normal;
+    font-size: 14px;
+    /* Adjust the font size for username */
+
 }
 
 .email {
-    font-size: 12px; /* Adjust the font size for email */
-    color: #808080; /* Grey color for email */
+    font-size: 12px;
+    /* Adjust the font size for email */
+    color: #808080;
+    /* Grey color for email */
 }
 
 .profile-section {
 
-  border-top: 2px solid #ccc; /* Warna dan ketebalan garis */
-    margin-top: auto; /* Push profile section to the bottom */
-    padding: 20px; /* Add padding for better spacing */
+    position: sticky;
+    top: 20px;
+    /* Adjust the top position as needed */
+    border-top: 2px solid #ccc;
+    margin-top: 190px;
+    padding: 20px;
     background-color: #ffffff;
-    cursor:pointer;
-    
+    cursor: pointer;
+    z-index: 1;
+    width: 280px;
+
 }
 
-.profile-section:hover{
+.profile-section:hover {
     border-radius: 5px;
     background-color: #eaeaea;
 }
@@ -107,16 +121,29 @@ export default {
 }
 
 .profile-picture {
-    width: 40px; /* Adjust the width of the profile picture */
-    height: 40px; /* Adjust the height of the profile picture */
-    border-radius: 50%; /* Make it circular */
-    margin-right: 10px; /* Add margin to separate profile picture from user info */
+    width: 40px;
+    /* Adjust the width of the profile picture */
+    height: 40px;
+    /* Adjust the height of the profile picture */
+    border-radius: 50%;
+    /* Make it circular */
+    margin-right: 10px;
+    /* Add margin to separate profile picture from user info */
 }
 
 .centered-image {
     max-width: 100%;
     display: block;
     margin: 0 auto;
+}
+
+.bar {
+    position: fixed;
+    height: 10vh;
+    top: 0;
+    left: 0;
+    padding-left: 0px;
+    padding-top: 480px;
 }
 
 .sidebar {
@@ -126,7 +153,7 @@ export default {
     color: rgb(82, 82, 82)000;
     position: fixed;
     /* Fixed position so it stays visible while scrolling */
-    height: 100vh;
+    height: 90vh;
     /* Full height of the viewport */
     top: 0;
     /* Align to the top of the viewport */

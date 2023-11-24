@@ -1,6 +1,308 @@
 <template>
     <div>
-        <LayoutsSidebar/>
-        <LayoutsNavbar/>
+        <LayoutsSidebar />
+        <LayoutsNavbar />
+        <div class="all-box">
+            <div class="welcome-box">
+                <h1>Welcome Back!</h1>
+                <h3>Nahiya Zahrah As Admin</h3>
+            </div>
+
+            <div class="IOP-box">
+                <p>Internal Order Project</p>
+            </div>
+
+            <div class="TP-box">
+                <p>Total Project</p>
+            </div>
+
+            <div class="IPC-box">
+                <p>Internal Project Charter</p>
+            </div>
+
+            <div class="IOSB-box">
+                <p>Internal Order Status Bar</p>
+                <hr />
+                <!-- Add your donut chart container here -->
+                <div>
+                    <canvas ref="iosbChart"></canvas>
+                </div>
+            </div>
+
+            <div class="PCSB-box">
+                <p>Project Charter Status Bar</p>
+                <hr />
+                <!-- Add your donut chart container here -->
+                <div>
+                    <canvas ref="pcsbChart"></canvas>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
+
+<script>
+import Chart from 'chart.js/auto';
+export default {
+    mounted() {
+        this.createDonutChart('iosbChart', [30, 25, 25], ['On Going', 'Finish', 'Dropped'], ['#C53030', '#E7E7E7', '#68788F']);
+        this.createDonutChart('pcsbChart', [15, 60, 25], ['On Going', 'Finish', 'Dropped'], ['#C53030', '#E7E7E7', '#68788F']);
+    },
+    methods: {
+        createDonutChart(chartId, data, labels, colors) {
+            const ctx = this.$refs[chartId].getContext('2d');
+
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: colors,
+                    }],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                },
+            });
+        },
+    },
+};
+</script>
+
+<style>
+/* .all-box {
+    padding: 41%;
+} */
+
+.welcome-box {
+    position: fixed;
+    top: 18%;
+    right: 41%;
+    transform: translate(50%, -50%);
+    border-radius: 2px;
+    width: 80%;
+    /* Set a percentage width for responsiveness */
+    max-width: 1100px;
+    /* Set a maximum width for responsiveness */
+    min-width: 300px;
+    /* Set a minimum width for responsiveness */
+    height: 110px;
+    /* Set height to auto for responsiveness */
+    max-height: 80vh;
+    /* Set a maximum height for responsiveness */
+    padding: 15px;
+    background-color: #C53030;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.welcome-box h1,
+.welcome-box h3 {
+    margin: 0;
+    color: #ffff;
+}
+
+.welcome-box h1 {
+    font-weight: 600;
+    font-size: 18px;
+    padding-top: 1px;
+
+}
+
+.welcome-box h3 {
+    font-weight: bold;
+    /* Add this line to make h3 bold */
+    font-size: 35px;
+}
+
+/* Add a media query for smaller screens */
+@media screen and (max-width: 600px) {
+    .welcome-box {
+        width: 90%;
+        right: 5%;
+    }
+}
+
+.IOP-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+
+    position: fixed;
+    top: 39%;
+    right: 65.8%;
+    transform: translate(50%, -50%);
+    border-radius: 5px;
+    width: 80%;
+    /* Set a percentage width for responsiveness */
+    max-width: 100px;
+    /* Set a maximum width for responsiveness */
+    min-width: 340px;
+    /* Set a minimum width for responsiveness */
+    height: 160px;
+    /* Set height to auto for responsiveness */
+    max-height: 80vh;
+    /* Set a maximum height for responsiveness */
+    padding: 15px;
+    background-color: #ffff;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.IOP-box p {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.TP-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    position: fixed;
+    top: 39%;
+    right: 41%;
+    /* Adjust the right position */
+    transform: translate(50%, -50%);
+    border-radius: 5px;
+    width: 80%;
+    /* Set a percentage width for responsiveness */
+    max-width: 100px;
+    /* Set a maximum width for responsiveness */
+    min-width: 340px;
+    /* Set a minimum width for responsiveness */
+    height: 160px;
+    /* Set height to auto for responsiveness */
+    max-height: 80vh;
+    /* Set a maximum height for responsiveness */
+    padding: 15px;
+    background-color: #ffff;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.TP-box p {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.IPC-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    position: fixed;
+    top: 39%;
+    right: 16.2%;
+    /* Adjust the right position */
+    transform: translate(50%, -50%);
+    border-radius: 5px;
+    width: 80%;
+    /* Set a percentage width for responsiveness */
+    max-width: 100px;
+    /* Set a maximum width for responsiveness */
+    min-width: 340px;
+    /* Set a minimum width for responsiveness */
+    height: 160px;
+    /* Set height to auto for responsiveness */
+    max-height: 80vh;
+    /* Set a maximum height for responsiveness */
+    padding: 15px;
+    background-color: #ffff;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.IPC-box p {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.IOSB-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    position: fixed;
+    top: 74%;
+    right: 60%;
+    /* Adjust the right position */
+    transform: translate(50%, -50%);
+    border-radius: 5px;
+    width: 80%;
+    /* Set a percentage width for responsiveness */
+    max-width: 100px;
+    /* Set a maximum width for responsiveness */
+    min-width: 520px;
+    /* Set a minimum width for responsiveness */
+    height: 300px;
+    /* Set height to auto for responsiveness */
+    max-height: 80vh;
+    /* Set a maximum height for responsiveness */
+    padding: 15px;
+    background-color: #ffff;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.IOSB-box p {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.PCSB-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    position: fixed;
+    top: 74%;
+    right: 22%;
+    /* Adjust the right position */
+    transform: translate(50%, -50%);
+    border-radius: 5px;
+    width: 80%;
+    /* Set a percentage width for responsiveness */
+    max-width: 100px;
+    /* Set a maximum width for responsiveness */
+    min-width: 520px;
+    /* Set a minimum width for responsiveness */
+    height: 300px;
+    /* Set height to auto for responsiveness */
+    max-height: 80vh;
+    /* Set a maximum height for responsiveness */
+    padding: 15px;
+    background-color: #ffff;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.PCSB-box p {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.IOSB-box,
+.PCSB-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    /* ... other styles ... */
+}
+
+.donut-chart-container {
+    max-width: 400px; /* Sesuaikan ukuran maksimum yang diinginkan */
+    margin: auto; /* Pusatkan diagram secara horizontal */
+    float: right; /* Sesuaikan jarak atas yang diinginkan */
+}
+
+canvas {
+  width: 85%;
+   /* Agar kanvas mengisi lebar elemen induknya */
+}
+
+</style>
