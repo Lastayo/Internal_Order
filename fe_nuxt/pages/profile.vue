@@ -1,5 +1,6 @@
 <template>
     <div>
+      <LayoutsNavbar />
       <LayoutsSidebar />
       <div class="welcome-box">
         <h1>Welcome Guys</h1>
@@ -16,9 +17,10 @@
   .welcome-box {
     position: fixed;
     top: 50%;
-    right: 0;
+    right: 50px;
     transform: translateY(-50%);
-    width: 500px; /* Ganti ukuran lebar sesuai kebutuhan */
+    border-radius: 25px;
+    width: 1000px; /* Ganti ukuran lebar sesuai kebutuhan */
     height: 500px;
     padding: 15px;
     background-color: #f5f5f5;
@@ -32,4 +34,3 @@
     color: #333;
   }
   </style>
-  
