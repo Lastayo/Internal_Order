@@ -4,7 +4,7 @@
             <div class="order-first hidden w-full lg:block">
                 <img class="p-2 centered-image" src="assets/Telkomsigma-baru.svg" alt="" />
             </div>
-            <div class="pt-32 relative ">
+            <div class="pt-32 ">
                 <ul class="list-none">
                     <li @click="navigateTo('/dashbord')" class="cursor-pointer flex items-center">
                         <i class="fas fa-home px-2"></i>Dashboard
@@ -43,12 +43,12 @@
                             </li>
                         </ul>
                     </li>
-                    <li @click="navigateTo('/logout')" :class="{ 'mt-20': dropdowns.projectCharter }"
+                    <li @click="navigateTo('/login')" :class="{ 'mt-20': dropdowns.projectCharter }"
                         class="cursor-pointer flex items-center">
                         <i class="fas fa-right-from-bracket px-2"></i>Logout
                     </li>
                 </ul>
-                <div>
+                <!-- <div>
                     <div @click="navigateTo('/profile')" class="profile-section">
                         <div class="profile-info">
                             <img class="profile-picture" src="assets/haikal-profile.jpg" alt="Profile Picture" />
@@ -57,10 +57,8 @@
                                 <div class="email">superhaikal@gmail.com</div>
                             </div>
                         </div>
-                        <ul v-if="dropdowns.internalOrder" class="list-none absolute left-0 top-full hidden z-50">
-                        </ul>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </aside>
@@ -130,7 +128,7 @@ export default {
     padding: 20px;
     background-color: #ffffff;
     cursor: pointer;
-    z-index: 100;
+    z-index: 1;
     width: 280px;
 
 }
