@@ -20,29 +20,16 @@
                 </div>
             </div>
 
-            <div class="flex space-x-7"> <!-- Menambahkan kelas flex dan space-x-6 untuk memberi ruang antar elemen -->
-                <div class="h-72 px-0 flex flex-col border-2 p-6 text-center bg-[#ffffff] rounded-lg">
+            <div class="flex space-x-14"> <!-- Menambahkan kelas flex dan space-x-6 untuk memberi ruang antar elemen -->
+                <div class="h-72 px-28 flex flex-col border-2 p-6 text-center bg-[#ffffff] rounded-lg">
                     <h1 class="text-black font-bold sm:text-xl ">Internal Order Status Bar</h1>
                     <canvas ref="iosbChart"></canvas>
                 </div>
-                <div class="h-72 px-0 flex flex-col border-2 p-6 text-center bg-[#ffffff] rounded-lg">
+                <div class="h-72 px-28 flex flex-col border-2 p-6 text-center bg-[#ffffff] rounded-lg">
                     <h1 class="text-black font-bold sm:text-xl ">Project Charter Status Bar</h1>
                     <canvas ref="pcsbChart"></canvas>
                 </div>
             </div>
-
-
-
-
-
-            <!-- <div class="PCSB-box">
-                <p>Project Charter Status Bar</p>
-                <hr />
-               
-                <div>
-                    <canvas ref="pcsbChart"></canvas>
-                </div>
-            </div> -->
         </div>
     </div>
 </template>

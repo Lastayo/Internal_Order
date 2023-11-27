@@ -4,7 +4,7 @@
             <div class="order-first hidden w-full lg:block">
                 <img class="p-2 centered-image" src="assets/Telkomsigma-baru.svg" alt="" />
             </div>
-            <div class="pt-32 ">
+            <div class="pt-32 relative ">
                 <ul class="list-none">
                     <li @click="navigateTo('/dashbord')" class="cursor-pointer flex items-center">
                         <i class="fas fa-home px-2"></i>Dashboard
@@ -57,6 +57,8 @@
                                 <div class="email">superhaikal@gmail.com</div>
                             </div>
                         </div>
+                        <ul v-if="dropdowns.internalOrder" class="list-none absolute left-0 top-full hidden z-50">
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -128,7 +130,7 @@ export default {
     padding: 20px;
     background-color: #ffffff;
     cursor: pointer;
-    z-index: 1;
+    z-index: 100;
     width: 280px;
 
 }
