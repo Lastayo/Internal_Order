@@ -43,12 +43,12 @@
                             </li>
                         </ul>
                     </li>
-                    <li @click="navigateTo('/logout')" :class="{ 'mt-20': dropdowns.projectCharter }"
+                    <li @click="navigateTo('/login')" :class="{ 'mt-20': dropdowns.projectCharter }"
                         class="cursor-pointer flex items-center">
                         <i class="fas fa-right-from-bracket px-2"></i>Logout
                     </li>
                 </ul>
-                <div>
+                <!-- <div>
                     <div @click="navigateTo('/profile')" class="profile-section">
                         <div class="profile-info">
                             <img class="profile-picture" src="assets/haikal-profile.jpg" alt="Profile Picture" />
@@ -58,7 +58,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </aside>

@@ -1,20 +1,25 @@
 <template>
     <div>
-        <nav>
-        </nav>
-        <div class="bg-[#64a6e7] bg-cover">
-            </div>
+      <nav class="h-20 bg-[#ffffff]">
+        <ProfileSection />
+      </nav>
+
     </div>
-</template>
+  </template>
   
-<style scoped>
-
-
-nav {
-    background-color: #c11b1b;
-    height: 11vh;
-
-    
-    /* padding-bottom: 20px; */
+  <script>
+  import ProfileSection from "@/components/ProfileSection.vue"; // Sesuaikan dengan lokasi sebenarnya komponen ProfileSection
+  
+  export default {
+    components: {
+      ProfileSection,
+    },
+  };
+  </script>
+  
+  <style scoped>
+  .profile-section {
+  z-index: 100; 
 }
-</style>
+  </style>
+  
