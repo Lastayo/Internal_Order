@@ -1,42 +1,48 @@
 <template>
-    <div>
+    <div class="bg-[#EDF2F7] bg-cover min-h-screen">
         <LayoutsSidebar />
         <LayoutsNavbar />
-        <div class="all-box">
-            <div class="welcome-box">
-                <h1>Welcome Back!</h1>
-                <h3>Nahiya Zahrah As Admin</h3>
+        <div class="py-8 pl-96 pr-10">
+            <div class="h-full w-11/12 flex flex-col p-5 bg-[#C53030] rounded">
+                <h1 class="text-white font-semibold sm:text-md md:text-xl lg:text-2xl">Welcome Back!</h1>
+                <h1 class="text-white font-bold sm:text-2xl md:text3xl lg:text-4xl">Nahiya Zahrah As Admin</h1>
             </div>
 
-            <div class="IOP-box">
-                <p>Internal Order Project</p>
-            </div>
-
-            <div class="TP-box">
-                <p>Total Project</p>
-            </div>
-
-            <div class="IPC-box">
-                <p>Internal Project Charter</p>
-            </div>
-
-            <div class="IOSB-box">
-                <p>Internal Order Status Bar</p>
-                <hr />
-                <!-- Add your donut chart container here -->
-                <div>
-                    <canvas ref="iosbChart"></canvas>
+            <div class="py-6 flex space-x-7"> <!-- Menambahkan kelas flex dan space-x-4 untuk memberi ruang antar elemen -->
+                <div class="h-32 w-80 flex flex-col border-2 p-6 text-center bg-[#ffffff] rounded-lg">
+                    <h1 class="text-black font-bold sm:text-xl ">Internal Order Project</h1>
+                </div>
+                <div class="h-32 w-80 flex flex-col border-2 p-6 text-center bg-[#ffffff] rounded-lg">
+                    <h1 class="text-black font-bold sm:text-xl ">Total Project</h1>
+                </div>
+                <div class="h-32 w-80 flex flex-col border-2 p-6 text-center bg-[#ffffff] rounded-lg">
+                    <h1 class="text-black font-bold sm:text-xl ">Internal Project Charter</h1>
                 </div>
             </div>
 
-            <div class="PCSB-box">
-                <p>Project Charter Status Bar</p>
-                <hr />
-                <!-- Add your donut chart container here -->
-                <div>
+            <div class="flex space-x-7"> <!-- Menambahkan kelas flex dan space-x-6 untuk memberi ruang antar elemen -->
+                <div class="h-72 px-0 flex flex-col border-2 p-6 text-center bg-[#ffffff] rounded-lg">
+                    <h1 class="text-black font-bold sm:text-xl ">Internal Order Status Bar</h1>
+                    <canvas ref="iosbChart"></canvas>
+                </div>
+                <div class="h-72 px-0 flex flex-col border-2 p-6 text-center bg-[#ffffff] rounded-lg">
+                    <h1 class="text-black font-bold sm:text-xl ">Project Charter Status Bar</h1>
                     <canvas ref="pcsbChart"></canvas>
                 </div>
             </div>
+
+
+
+
+
+            <!-- <div class="PCSB-box">
+                <p>Project Charter Status Bar</p>
+                <hr />
+               
+                <div>
+                    <canvas ref="pcsbChart"></canvas>
+                </div>
+            </div> -->
         </div>
     </div>
 </template>
@@ -77,25 +83,9 @@ export default {
 } */
 
 .welcome-box {
-    position: fixed;
-    top: 18%;
-    right: 41%;
-    transform: translate(50%, -50%);
-    border-radius: 2px;
-    width: 80%;
-    /* Set a percentage width for responsiveness */
-    max-width: 1100px;
-    /* Set a maximum width for responsiveness */
-    min-width: 300px;
-    /* Set a minimum width for responsiveness */
-    height: 110px;
-    /* Set height to auto for responsiveness */
-    max-height: 80vh;
-    /* Set a maximum height for responsiveness */
-    padding: 15px;
+
     background-color: #C53030;
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
+
 }
 
 .welcome-box h1,
@@ -118,12 +108,6 @@ export default {
 }
 
 /* Add a media query for smaller screens */
-@media screen and (max-width: 600px) {
-    .welcome-box {
-        width: 90%;
-        right: 5%;
-    }
-}
 
 .IOP-box {
     display: flex;
@@ -238,7 +222,7 @@ export default {
     /* Set a maximum width for responsiveness */
     min-width: 520px;
     /* Set a minimum width for responsiveness */
-    height: 300px;
+
     /* Set height to auto for responsiveness */
     max-height: 80vh;
     /* Set a maximum height for responsiveness */
@@ -295,14 +279,16 @@ export default {
 }
 
 .donut-chart-container {
-    max-width: 400px; /* Sesuaikan ukuran maksimum yang diinginkan */
-    margin: auto; /* Pusatkan diagram secara horizontal */
-    float: right; /* Sesuaikan jarak atas yang diinginkan */
+    max-width: 400px;
+    /* Sesuaikan ukuran maksimum yang diinginkan */
+    margin: auto;
+    /* Pusatkan diagram secara horizontal */
+    float: right;
+    /* Sesuaikan jarak atas yang diinginkan */
 }
 
 canvas {
-  width: 85%;
-   /* Agar kanvas mengisi lebar elemen induknya */
+    width: 85%;
+    /* Agar kanvas mengisi lebar elemen induknya */
 }
-
 </style>
