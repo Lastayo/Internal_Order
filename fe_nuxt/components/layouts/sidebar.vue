@@ -1,49 +1,63 @@
 <template>
-    <aside class="bar">
-        <div class="sidebar">
-            <nav>
-                <div class="order-first hidden w-full lg:block">
-                    <img class="object-cover h-full bg-cover rounded-l-lg content-center py-3 with-shadow centered-image"
-                        src="assets/Telkomsigma-baru.svg" alt="" />
-                </div>
-                <br><br><br><br><br>
-                <ul>
-                    <li @click="navigateTo('/dashbord')"><i class="fas fa-home px-3"></i>Dashboard</li>
-                    <li @click="navigateTo('/user')"><i class="fas fa-user px-3"></i>User</li>
-                    <li @click="navigateTo('/employee')"><i class="fas fa-clipboard-user px-3"></i>Employee</li>
-                    <li @click="toggleDropdown('internalOrder')"><i class="fas fa-receipt px-3"></i>Internal Order<i
-                            class="fas fa-greater-than px-9 fa-2xs"></i>
-                        <ul v-if="dropdowns.internalOrder">
-                            <li @click="navigateTo('/internal-order/item1')"><i class="fas fa-circle fa-2xs px-3"></i>Order
+    <aside class="sidebar">
+        <div class="h-full w-full flex flex-col py-6 bg-[#ffff]">
+            <div class="order-first hidden w-full lg:block">
+                <img class="p-2 centered-image" src="assets/Telkomsigma-baru.svg" alt="" />
+            </div>
+            <div class="pt-32 ">
+                <ul class="list-none">
+                    <li @click="navigateTo('/dashbord')" class="cursor-pointer flex items-center">
+                        <i class="fas fa-home px-2"></i>Dashboard
+                    </li>
+                    <li @click="navigateTo('/user')" class="cursor-pointer flex items-center">
+                        <i class="fas fa-user px-2"></i>User
+                    </li>
+                    <li @click="navigateTo('/employee')" class="cursor-pointer flex items-center">
+                        <i class="fas fa-clipboard-user px-2"></i>Employee
+                    </li>
+                    <li @click="toggleDropdown('internalOrder')" @mouseleave="closeDropdown('internalOrder')"
+                        class="relative group cursor-pointer">
+                        <i class="fas fa-receipt px-2"></i>
+                        <span class="whitespace-nowrap">Internal Order</span>
+                        <i class="fas fa-greater-than px-8 fa-2xs"></i>
+                        <ul v-if="dropdowns.internalOrder" class="list-none absolute left-0 top-full hidden">
+                            <li @click="navigateTo('/internal-order/item1')" class="cursor-pointer flex items-center">
+                                <i class="fas fa-circle fa-2xs px-3"></i>Order
                             </li>
-                            <li @click="navigateTo('/internal-order/item2')"><i
-                                    class="fas fa-circle fa-2xs px-3"></i>Repository
+                            <li @click="navigateTo('/internal-order/item2')" class="cursor-pointer flex items-center">
+                                <i class="fas fa-circle fa-2xs px-3"></i>Repository
                             </li>
                         </ul>
                     </li>
-                    <li @click="toggleDropdown('projectCharter')"><i class="fas fa-clipboard-list px-3"></i>Project
-                        Charter<i class="fas fa-greater-than px-7 fa-2xs"></i>
-                        <ul v-if="dropdowns.projectCharter">
-                            <li @click="navigateTo('/project-charter/item1')"><i class="fas fa-circle fa-2xs px-3"></i>Order
+                    <li @click="toggleDropdown('projectCharter')" @mouseleave="closeDropdown('projectCharter')"
+                        :class="{ 'mt-20': dropdowns.internalOrder }" class="relative group cursor-pointer">
+                        <i class="fas fa-receipt px-2"></i>
+                        <span class="whitespace-nowrap">Project Charter</span>
+                        <i class="fas fa-greater-than px-6   fa-2xs"></i>
+                        <ul v-if="dropdowns.projectCharter" class="list-none absolute left-0 top-full hidden">
+                            <li @click="navigateTo('/project-charter/item1')" class="cursor-pointer flex items-center">
+                                <i class="fas fa-circle fa-2xs px-3"></i>Order
                             </li>
-                            <li @click="navigateTo('/project-charter/item2')"><i
-                                    class="fas fa-circle fa-2xs px-3"></i>Repository</li>
+                            <li @click="navigateTo('/project-charter/item2')" class="cursor-pointer flex items-center">
+                                <i class="fas fa-circle fa-2xs px-3"></i>Repository
+                            </li>
                         </ul>
                     </li>
-                    <li @click="navigateTo('/logout')"><i class="fas fa-right-from-bracket px-3"></i>Logout</li>
+                    <li @click="navigateTo('/logout')" :class="{ 'mt-20': dropdowns.projectCharter }"
+                        class="cursor-pointer flex items-center">
+                        <i class="fas fa-right-from-bracket px-2"></i>Logout
+                    </li>
                 </ul>
-                <!-- <br><br><br><br><br><br><br><br> -->
-
-
-            </nav>
-        </div>
-        <div @click="navigateTo('/profile')" class="profile-section">
-
-            <div class="profile-info">
-                <img class="profile-picture" src="assets/haikal-profile.jpg" alt="Profile Picture" />
-                <div class="user-info">
-                    <div class="username">Haikal Adibasta</div>
-                    <div class="email">superhaikal@gmail.com</div>
+                <div>
+                    <div @click="navigateTo('/profile')" class="profile-section">
+                        <div class="profile-info">
+                            <img class="profile-picture" src="assets/haikal-profile.jpg" alt="Profile Picture" />
+                            <div class="user-info">
+                                <div class="username">Haikal Adibasta</div>
+                                <div class="email">superhaikal@gmail.com</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -66,6 +80,15 @@ export default {
         },
         toggleDropdown(key) {
             this.dropdowns[key] = !this.dropdowns[key];
+        },
+        openDropdown(key) {
+            this.dropdowns[key] = true;
+        },
+        closeDropdown(key) {
+            this.dropdowns[key] = false;
+        },
+        navigateTo(route) {
+            this.$router.push(route);
         },
     },
 };
@@ -153,15 +176,7 @@ export default {
     color: rgb(82, 82, 82)000;
     position: fixed;
     /* Fixed position so it stays visible while scrolling */
-    height: 90vh;
-    /* Full height of the viewport */
-    top: 0;
-    /* Align to the top of the viewport */
-    left: 0;
-    /* Align to the left of the viewport */
-    padding-left: 5px;
-    padding-top: 20px;
-    /* Add some padding at the top */
+    height: 100vh;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     /* Add a subtle box shadow for depth */
 }
@@ -202,5 +217,6 @@ ul ul {
 ul li:hover>ul {
 
     display: block;
-}</style>
+}
+</style>
   

@@ -1,7 +1,7 @@
 <template>
   <div>
-    <LayoutsNavbar />
     <LayoutsSidebar />
+    <LayoutsNavbar />
     <div class="profile-box">
       <div class="profile-data">
         <div class="profile-info">
