@@ -3,7 +3,7 @@
     <LayoutsSidebar />
     <LayoutsNavbar />
     <div class="profile-box bg-white shadow-lg rounded-md ml-80 mr-20 p-10 mt-16">
-      <div class="profile-data flex items-center">
+      <div class="profile-data flex ">
         <img class="profile-picture w-16 h-16 rounded-full mr-4" src="assets/man.png"/>
         <div class="user-info pr-96">
           <div class="username text-lg font-semibold">Haikal Adibasta</div>
@@ -23,14 +23,14 @@
             <label class="NamaUser mr-auto">
               <span class="text-sm font-medium text-slate-700">Nama</span>
               <div
-                class="placeholder-container mt-1 pl-3 pr-96 py-2 bg-gray-100 border shadow-sm w-auto rounded-md sm:text-sm text-slate-500">
+                class="placeholder-container  bg-gray-100 border shadow-sm  rounded-md sm:text-sm text-slate-500">
                 {{ profileName }}
               </div>
             </label>
             <label class="EmailUser">
               <span class="text-sm font-medium text-slate-700">Email</span>
               <div
-                class="placeholder-container mt-1 pl-3 pr-96 py-2 bg-gray-100 border shadow-sm w-auto rounded-md sm:text-sm text-slate-500">
+                class="placeholder-container  bg-gray-100 border shadow-sm  rounded-md sm:text-sm text-slate-500">
                 {{ profileEmail }}
               </div>
             </label>
@@ -40,13 +40,13 @@
             <label class="PositionUser mr-auto">
               <span class="text-sm font-medium text-slate-700">Position</span>
               <div
-                class="placeholder-container mt-1 pl-3 pr-96 py-2 bg-gray-100 border shadow-sm w-auto rounded-md sm:text-sm text-slate-500">
+                class="placeholder-container  bg-gray-100 border shadow-sm  rounded-md sm:text-sm text-slate-500">
                 {{ profilePosition }}
               </div>
             </label>
             <label class="RoleUser mr-auto">
               <span class="text-sm font-medium text-slate-700">Role</span>
-              <div class="mt-1 pl-3 pr-96 py-2 bg-gray-100 border shadow-sm w-auto rounded-md sm:text-sm text-slate-500">
+              <div class="placeholder-container  bg-gray-100 border shadow-sm  rounded-md sm:text-sm text-slate-500">
                 {{ profileRole }}
               </div>
             </label>
@@ -55,7 +55,7 @@
             <label class="TelpUser mr-auto">
               <span class="text-sm font-medium text-slate-700">Telp Number</span>
               <div
-                class="telp-placeholder mt-1 pl-3 pr-96 py-2 bg-gray-100 border shadow-sm w-3/6 rounded-md sm:text-sm text-slate-500">
+                class="placeholder-container  bg-gray-100 border shadow-sm  rounded-md sm:text-sm text-slate-500">
                 {{ profileTelp }}
               </div>
             </label>
@@ -147,6 +147,17 @@ export default {
 
 <style scoped>
 /* Your existing styles... */
+/* mt-1 pl-3 pr-96 py-2 */
+.placeholder-container {
+  position: flex;
+  width: 500px;
+  padding-right: 60px;
+  margin-top: 1px;
+  margin-right: 40px;
+  padding-left: 3px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
 
 .detail-value .placeholder::before {
   content: "Your Placeholder Text";

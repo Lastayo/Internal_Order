@@ -9,19 +9,19 @@
                     <li @click="navigateTo('/dashbord')" class="cursor-pointer flex items-center">
                         <i class="fas fa-home px-2"></i>Dashboard
                     </li>
-                    <li @click="navigateTo('/user')" class="cursor-pointer flex items-center">
+                    <li @click="navigateTo('/user')" :class="{ 'active': currentRoute === '/user' }"
+                        class="cursor-pointer flex items-center">
                         <i class="fas fa-user px-2"></i>User
                     </li>
                     <li @click="navigateTo('/employee')" class="cursor-pointer flex items-center">
                         <i class="fas fa-clipboard-user px-2"></i>Employee
                     </li>
-                    <li @click="toggleDropdown('internalOrder')" @mouseleave="closeDropdown('internalOrder')"
-                        class="relative group cursor-pointer">
+                    <li @click="toggleDropdown('internalOrder')" class="relative group cursor-pointer">
                         <i class="fas fa-receipt px-2"></i>
                         <span class="whitespace-nowrap">Internal Order</span>
-                        <i class="fas fa-greater-than px-8 fa-2xs"></i>
-                        <ul v-if="dropdowns.internalOrder" class="list-none absolute left-0 top-full hidden">
-                            <li @click="navigateTo('/internal-order/item1')" class="cursor-pointer flex items-center">
+                        <i class="fas fa-greater-than px-10 fa-2xs"></i>
+                        <ul v-if="dropdowns.internalOrder" class="list-none absolute left-0 top-full ">
+                            <li @click="navigateTo('/internal-order/item1')" class="cursor-pointer flex my-2 items-center">
                                 <i class="fas fa-circle fa-2xs px-3"></i>Order
                             </li>
                             <li @click="navigateTo('/internal-order/item2')" class="cursor-pointer flex items-center">
@@ -29,13 +29,13 @@
                             </li>
                         </ul>
                     </li>
-                    <li @click="toggleDropdown('projectCharter')" @mouseleave="closeDropdown('projectCharter')"
-                        :class="{ 'mt-20': dropdowns.internalOrder }" class="relative group cursor-pointer">
+                    <li @click="toggleDropdown('projectCharter')" :class="{ 'mt-24': dropdowns.internalOrder }"
+                        class="relative group cursor-pointer">
                         <i class="fas fa-receipt px-2"></i>
                         <span class="whitespace-nowrap">Project Charter</span>
-                        <i class="fas fa-greater-than px-6   fa-2xs"></i>
+                        <i class="fas fa-greater-than px-8 fa-2xs"></i>
                         <ul v-if="dropdowns.projectCharter" class="list-none absolute left-0 top-full hidden">
-                            <li @click="navigateTo('/project-charter/item1')" class="cursor-pointer flex items-center">
+                            <li @click="navigateTo('/project-charter/item1')" class="cursor-pointer flex my-2 items-center">
                                 <i class="fas fa-circle fa-2xs px-3"></i>Order
                             </li>
                             <li @click="navigateTo('/project-charter/item2')" class="cursor-pointer flex items-center">
@@ -43,7 +43,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li @click="navigateTo('/login')" :class="{ 'mt-20': dropdowns.projectCharter }"
+                    <li @click="navigateTo('/login')" :class="{ 'mt-24': dropdowns.projectCharter }"
                         class="cursor-pointer flex items-center">
                         <i class="fas fa-right-from-bracket px-2"></i>Logout
                     </li>
@@ -71,12 +71,13 @@ export default {
             dropdowns: {
                 internalOrder: false,
                 projectCharter: false,
+                currentRoute: '',
             },
         };
     },
     methods: {
         navigateTo(route) {
-            this.$router.push(route);
+            this.currentRoute = route;
         },
         toggleDropdown(key) {
             this.dropdowns[key] = !this.dropdowns[key];
@@ -99,74 +100,10 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 
-.user-info {
-    display: flex;
-    flex-direction: column;
-}
-
-.username {
-    font-weight: normal;
-    font-size: 14px;
-    /* Adjust the font size for username */
-
-}
-
-.email {
-    font-size: 12px;
-    /* Adjust the font size for email */
-    color: #808080;
-    /* Grey color for email */
-}
-
-.profile-section {
-
-    position: sticky;
-    top: 20px;
-    /* Adjust the top position as needed */
-    border-top: 2px solid #ccc;
-    margin-top: 190px;
-    padding: 20px;
-    background-color: #ffffff;
-    cursor: pointer;
-    z-index: 1;
-    width: 280px;
-
-}
-
-.profile-section:hover {
-    border-radius: 5px;
-    background-color: #eaeaea;
-}
-
-.profile-info {
-    display: flex;
-    align-items: center;
-}
-
-.profile-picture {
-    width: 40px;
-    /* Adjust the width of the profile picture */
-    height: 40px;
-    /* Adjust the height of the profile picture */
-    border-radius: 50%;
-    /* Make it circular */
-    margin-right: 10px;
-    /* Add margin to separate profile picture from user info */
-}
-
 .centered-image {
     max-width: 100%;
     display: block;
     margin: 0 auto;
-}
-
-.bar {
-    position: fixed;
-    height: 10vh;
-    top: 0;
-    left: 0;
-    padding-left: 0px;
-    padding-top: 480px;
 }
 
 .sidebar {
@@ -195,9 +132,12 @@ li {
     color: rgb(100, 100, 100);
     border-radius: 7px;
     list-style-type: none;
+    margin-left: 10px;
+    margin-right: 10px;
     padding: 10px;
+    padding-left: 10px;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: background-color;
     /* Add a smooth transition for hover effect */
 }
 
@@ -209,14 +149,14 @@ li:hover {
     border-radius: 7px;
 }
 
-ul ul {
-    display: none;
-    padding-left: 15px;
+.active {
+    background-color: #d40000;
 }
 
-ul li:hover>ul {
+ul ul {
 
     display: block;
+    padding-left: 4px;
 }
 </style>
   
