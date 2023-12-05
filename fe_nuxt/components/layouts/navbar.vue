@@ -1,6 +1,6 @@
 <template>
     <div>
-      <nav class="h-20 bg-[#ffffff]">
+      <nav class="h-20 bg-[#C53030]">
         <ProfileSection />
       </nav>
 

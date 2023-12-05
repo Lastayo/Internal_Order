@@ -1,5 +1,4 @@
 
-
 <template>
     <div class="bg-[#EDF2F7] bg-cover min-h-screen">
         <LayoutsSidebar />
@@ -12,81 +11,76 @@
             <div v-if="currentStep === 1" class="pt-6 flex">
                 <!-- ... input fields untuk langkah 1 ... -->
                 <div class="mb-4 flex flex-col px-8 pt-4">
-                    <div class="text-4xl font-bold mb-4">Internal Order Form</div>
+                    <div class="text-4xl font-bold mb-4">Project Charter Form</div>
 
                     <div class="pt-6 flex">
                         <div class="mr-10">
                             <span class="block text-md font-medium text-slate-700">
-                                Requester
+                                Project Name
                             </span>
-                            <input type="text" name="requester"
+                            <input type="text" name="project_name"
                                 class="mt-1 w-auto pl-3 pr-80 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 rounded-md sm:text-sm "
-                                placeholder="Input Requester Name" />
+                                placeholder="Input Project Name" />
                         </div>
                         <div class="">
                             <span class="block text-md font-medium text-slate-700">
-                                High Level Design
+                                BU Delivery
                             </span>
-                            <input type="file" name="hld"
-                                class="mt-1 w-auto pl-3 pr-60 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 rounded-md sm:text-sm "
-                                placeholder="Upload File Here" />
+                            <input type="text" name="bu_delivery"
+                                class="mt-1 w-[513px] pl-3 pr-60 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 rounded-md sm:text-sm "
+                                placeholder="Input BU Delivery" />
                         </div>
                     </div>
                     <div class="flex ">
                         <div class="mr-10">
                             <span class="block text-md font-medium pt-2 text-slate-700">
-                                Application
+                                IWO
                             </span>
-                            <input type="text" name="application"
+                            <input type="text" name="iwo"
                                 class="mt-1 w-auto pl-3 pr-80 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 rounded-md sm:text-sm "
                                 placeholder="Input Application Name" />
                         </div>
                         <div class="pt-2">
                             <span class="block text-md font-medium text-slate-700">
-                                Low Level Design
+                                BU Relate
                             </span>
-                            <input type="file" name="lld"
-                                class="mt-1 w-auto pl-3 pr-60 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 rounded-md sm:text-sm "
-                                placeholder="Upload File Here" />
+                            <input type="text" name="bu_related"
+                                class="mt-1 w-[513px] pl-3 pr-60 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 rounded-md sm:text-sm "
+                                placeholder="Input BU Related" />
                         </div>
                     </div>
                     <div class="flex">
                         <div class="mr-10">
                             <span class="block text-md font-medium pt-2 text-slate-700">
-                                Start Date
+                                Project Manager
                             </span>
-                            <input type="date" name="start-date"
+                            <input type="text" name="project_manager"
                                 class="mt-1 w-[490px] px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 rounded-md sm:text-sm "
-                                placeholder="Select Start Date" />
+                                placeholder="Input Project Manager" />
                         </div>
                         <div class="mr-10">
                             <span class="block text-md font-medium pt-2 text-slate-700">
-                                Business Requirement Document
+                                Project Descriptions
                             </span>
-                            <input type="text" name="brd"
-                                class="mt-1 w-[513px] px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 rounded-md sm:text-sm"
-                                placeholder="Insert your link here" />
+                            <textarea name="descriptions"
+                                class="mt-1 w-[513px] px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 rounded-md sm:text-sm"/>
                         </div>
                     </div>
                     <div>
-                        <span class="block text-md font-medium pt-2 text-slate-700">
-                            End Date
+                        <span class="block text-md font-medium text-slate-700">
+                           Customer
                         </span>
-                        <input type="date" name="end-date"
+                        <input type="text" name="customer"
                             class="mt-1 w-[490px] px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 rounded-md sm:text-sm "
-                            placeholder="Select End Date" />
+                            placeholder="Input Customer" />
                     </div>
                     <div>
                         <span class="block text-md font-medium pt-2 text-slate-700">
-                            Status
+                           End Customer
                         </span>
-                        <select name="status"
-                            class="mb-6 w-[490px] px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 rounded-md sm:text-sm">
-                            <option value="" disabled selected>Select Status</option>
-                            <option value="option1">Option 1</option>
-                            <option value="option2">Option 2</option>
-                            <option value="option3">Option 3</option>
-                        </select>
+                        <input type="text" name="end_customer"
+                            class="mt-1 w-[490px] px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 rounded-md sm:text-sm "
+                            placeholder="Input End Customer" />
                     </div>
 
                     <button @click="nextStep" class="ml-auto px-10 h-10 text-sm bg-[#C53030] text-white rounded-md">

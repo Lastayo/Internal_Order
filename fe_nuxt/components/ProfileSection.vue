@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div @click="togglePopup" class="profile-section fixed top-2 right-9 p-2 bg-[#ffffff] rounded-full">
-      <img class="profile-picture w-12 h-12 rounded-full" src="assets/haikal-profile.jpg" alt="Profile Picture" />
+    <div @click="togglePopup" class="profile-section fixed top-4 right-9 border-2 border-black rounded-full">
+      <img class="profile-picture w-10 h-10 rounded-full" src="/assets/haikal-profile.jpg" alt="Profile Picture" />
       <div v-if="showPopup" class="popup mt-0 mr-4 bg-white border border-gray-300 shadow-md rounded w-56">
         <div class="p-4 flex items-center">
           <img class="profile-picture w-10 h-10 rounded-full mr-3" src="assets/haikal-profile.jpg"
