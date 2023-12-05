@@ -16,7 +16,7 @@
                     <h1 class="text-black font-bold sm:text-xl ">Total Project</h1>
                 </div>
                 <div class="h-32 w-80 flex flex-col border-2 p-6 text-center bg-[#ffffff] rounded-lg">
-                    <h1 class="text-black font-bold sm:text-xl ">Internal Project Charter</h1>
+                    <h1 class="text-black font-bold sm:text-xl ">Project Charter</h1>
                 </div>
             </div>
 
