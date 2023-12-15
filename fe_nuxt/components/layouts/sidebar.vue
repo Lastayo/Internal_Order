@@ -1,25 +1,26 @@
 <template>
     <aside class="sidebar">
         <div class="h-full w-full flex flex-col py-6 bg-[#ffff]">
+            
             <div class="order-first hidden w-full lg:block">
                 <img class="p-2 centered-image" src="/assets/Telkomsigma-baru.svg" alt="" />
             </div>
-            <div class="pt-32 ">
+
+            <div class="pt-36 ">
                 <ul class="list-none">
                     <li @click="navigateTo('/dashbord')" class="cursor-pointer flex items-center">
-                        <i class="fas fa-home px-2"></i>Dashboard
+                        <i class="fas fa-home px-4 text-xl"></i>Dashboard
                     </li>
-                    <li @click="navigateTo('/user')" :class="{ 'active': currentRoute === '/user' }"
-                        class="cursor-pointer flex items-center">
-                        <i class="fas fa-user px-2"></i>User
+                    <li @click="navigateTo('/user')" class="cursor-pointer flex items-center">
+                        <i class="fas fa-user px-4 text-xl"></i>User
                     </li>
                     <li @click="navigateTo('/employee')" class="cursor-pointer flex items-center">
-                        <i class="fas fa-clipboard-user px-2"></i>Employee
+                        <i class="fas fa-clipboard-user px-4 text-xl"></i>Employee
                     </li>
                     <li @click="toggleDropdown('internalOrder')" class="relative group cursor-pointer">
-                        <i class="fas fa-receipt px-2"></i>
+                        <i class="fas fa-receipt px-4 text-lg"></i>
                         <span class="whitespace-nowrap">Internal Order</span>
-                        <i class="fas fa-greater-than px-10 fa-2xs"></i>
+                        <i class="fas fa-greater-than px-8 fa-2xs"></i>
                         <ul v-if="dropdowns.internalOrder" class="list-none absolute left-0 top-full ">
                             <li @click="navigateTo('/IO/order')" class="cursor-pointer flex my-2 items-center">
                                 <i class="fas fa-circle fa-2xs px-3"></i>Order
@@ -31,21 +32,21 @@
                     </li>
                     <li @click="toggleDropdown('projectCharter')" :class="{ 'mt-24': dropdowns.internalOrder }"
                         class="relative group cursor-pointer">
-                        <i class="fas fa-receipt px-2"></i>
+                        <i class="fas fa-receipt px-4 text-lg"></i>
                         <span class="whitespace-nowrap">Project Charter</span>
-                        <i class="fas fa-greater-than px-8 fa-2xs"></i>
+                        <i class="fas fa-greater-than px-6 fa-2xs"></i>
                         <ul v-if="dropdowns.projectCharter" class="list-none absolute left-0 top-full hidden">
                             <li @click="navigateTo('/PC/order')" class="cursor-pointer flex my-2 items-center">
                                 <i class="fas fa-circle fa-2xs px-3"></i>Order
                             </li>
-                            <li @click="navigateTo('/project-charter/item2')" class="cursor-pointer flex items-center">
+                            <li @click="navigateTo('/PC/repository')" class="cursor-pointer flex items-center">
                                 <i class="fas fa-circle fa-2xs px-3"></i>Repository
                             </li>
                         </ul>
                     </li>
                     <li @click="navigateTo('/login')" :class="{ 'mt-24': dropdowns.projectCharter }"
                         class="cursor-pointer flex items-center">
-                        <i class="fas fa-right-from-bracket px-2"></i>Logout
+                        <i class="fas fa-right-from-bracket px-4 text-lg"></i>Logout
                     </li>
                 </ul>
                 <!-- <div>
@@ -159,4 +160,3 @@ ul ul {
     padding-left: 4px;
 }
 </style>
-  
