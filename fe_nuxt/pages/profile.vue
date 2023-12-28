@@ -107,7 +107,7 @@ export default {
   methods: {
     async fetchUserProfile() {
       try {
-        const response = await axios.get('https://z8v4553q-8000.asse.devtunnels.ms/api/users', {
+        const response = await axios.get('https://z8v4553q-8000.asse.devtunnels.ms/api/users/login', {
           headers: {
             Authorization: `Bearer ${this.$store.state.auth.token}`, // Assuming you have a Vuex store for authentication
           },
