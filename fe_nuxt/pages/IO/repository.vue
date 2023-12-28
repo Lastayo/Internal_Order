@@ -586,6 +586,14 @@ export default {
             gambaran: null,
 
             originalIoProject: {},
+
+            originalTimeline:[],
+
+            editingTimelineById:{
+                week:'',
+                activity:'',
+            },
+
             editingIoProject: {
                 id_project: null,
                 application_name: '',
@@ -712,28 +720,28 @@ export default {
     methods: {
 
         async saveDocument() {
-      try {
-        const formData = new FormData();
-        formData.append('file', this.gambaran);
+            try {
+                const formData = new FormData();
+                formData.append('file', this.gambaran);
 
-        // Menggunakan axios untuk mengirim file ke backend
-        await axios.post('http://localhost:3000/upload', formData);
+                // Menggunakan axios untuk mengirim file ke backend
+                await axios.post('http://localhost:3000/upload', formData);
 
-        // Setelah berhasil diunggah, Anda dapat menambahkan logika lainnya
-        console.log('File berhasil diunggah dan disimpan di database');
+                // Setelah berhasil diunggah, Anda dapat menambahkan logika lainnya
+                console.log('File berhasil diunggah dan disimpan di database');
 
-        // Tutup modal upload
-        this.closeUploadModal();
-      } catch (error) {
-        console.error('Error saving document:', error);
-        // Handle errors
-      }
-    },
+                // Tutup modal upload
+                this.closeUploadModal();
+            } catch (error) {
+                console.error('Error saving document:', error);
+                // Handle errors
+            }
+        },
 
-    inputgambar(file) {
-      console.log(file);
-      this.gambaran = file;
-    },
+        inputgambar(file) {
+            console.log(file);
+            this.gambaran = file;
+        },
         updateIoProject() {
             if (this.editingIoProject && this.editingIoProject.id_project) {
                 const formData = new FormData();
@@ -760,8 +768,7 @@ export default {
                 }
 
                 axios
-                    .put(
-                        'https://z8v4553q-8000.asse.devtunnels.ms/api/projectinternal/${this.editingIoProject.id_project}/', formData,
+                    .put(`https://z8v4553q-8000.asse.devtunnels.ms/api/projectinternal/${this.editingIoProject.id_project}/`, formData,
                         {
                             headers: {
                                 'Content-Type': 'multipart/form-data',
@@ -801,22 +808,36 @@ export default {
                     // Handle errors
                 });
         },
+        getTimelineById(id_timeline) {
+            axios
+                .get(`https://z8v4553q-8000.asse.devtunnels.ms/api/timeline/${this.id_project}/`)
+                .then((response) => {
+                    this.originalTimeline = response.data;
+                    // Set juga editingIoProject agar awalnya sama dengan originalIoProject
+                    this.editingTimeline = { ...response.data };
+                })  
+                .catch((error) => {
+                    console.error('Error fetching project data:', error);
+                    // Handle errors
+                });
+        },
         saveChanges() {
             // Pastikan editingIoProject tidak null dan memiliki properti yang diperlukan sebelum memanggil updateIoProject
             if (this.editingIoProject && this.editingIoProject.id_project) {
                 // Logika penyimpanan perubahan ke server
                 this.updateIoProject();
+                this.
 
-                // Setelah disimpan, reset editing state
-                this.editingIoProject = {
+                    // Setelah disimpan, reset editing state
+                    this.editingIoProject = {
                     id_project: null,
                     application_name: '',
                     requester: '',
                     start_date: '',
                     end_date: '',
-                    lld: [],
+                    lld: '',
                     brd: '',
-                    hld: [],
+                    hld: '',
                 };
             }
         },
@@ -827,11 +848,11 @@ export default {
 
 
         openUploadModal() {
-      this.uploadModal.isOpen = true;
-    },
-    closeUploadModal() {
-      this.uploadModal.isOpen = false;
-    },
+            this.uploadModal.isOpen = true;
+        },
+        closeUploadModal() {
+            this.uploadModal.isOpen = false;
+        },
 
         confirmDelete(projectId) {
             // Set deletingProjectId
@@ -978,29 +999,19 @@ export default {
     },
 
     mounted() {
-        axios
-            .get('https://z8v4553q-8000.asse.devtunnels.ms/api/projectinternal/')
-            .then((res) => {
-                // Pastikan respon sesuai dengan struktur data yang diharapkan
-                this.projects = res.data.projects; // Ganti dengan properti yang sesuai dari respon API
+    axios
+        .get('https://z8v4553q-8000.asse.devtunnels.ms/api/projectinternal/')
+        .then((res) => {
+            // Assuming the response directly contains an array of projects
+            this.ioProjects = res.data; // Change to match the actual structure of your response
 
-                // Set default selected project to the first project in the list
-                if (this.projects.length > 0) {
-                    this.selectedIoProject = this.projects[0];
-                }
-            })
-            .catch((err) => console.error(err));
-
-        axios
-            .get('https://example.com/second-url')
-            .then((response) => {
-                // Lakukan sesuatu dengan data dari URL kedua
-                console.log('Data dari URL kedua:', response.data);
-            })
-            .catch((error) => {
-                console.error('Error fetching data from second URL:', error);
-            });
-    }
+            // Set default selected project to the first project in the list
+            if (this.ioProjects.length > 0) {
+                this.selectedIoProject = this.ioProjects[0];
+            }
+        })
+        .catch((err) => console.error(err));
+}
 
 
 };
@@ -1029,4 +1040,3 @@ export default {
 }
 </style>
 
-boss
