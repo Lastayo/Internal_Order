@@ -230,12 +230,12 @@ export default {
     data() {
         return {
             employees: [
-                { id: 2, name: "Haikal Adibasta", telpNumber: "123456789", email: "superhaikal@example.com", position: "Manager" },
-                { id: 3, name: "Atsal fais", telpNumber: "123456789", email: "superhaikal@example.com", position: "GM" },
-                { id: 4, name: "Jendra Wardhana", telpNumber: "123456789", email: "superhaikal@example.com", position: "VP" },
-                { id: 5, name: "Depi Fitriani", telpNumber: "123456789", email: "superhaikal@example.com", position: "PM" },
-                { id: 6, name: "Nahiyah Zahrah", telpNumber: "123456789", email: "superhaikal@example.com", position: "BA" },
-                { id: 7, name: "Debian bukan linux", telpNumber: "123456789", email: "superhaikal@example.com", position: "BA" },
+                // { id: 2, name: "Haikal Adibasta", telpNumber: "123456789", email: "superhaikal@example.com", position: "Manager" },
+                // { id: 3, name: "Atsal fais", telpNumber: "123456789", email: "superhaikal@example.com", position: "GM" },
+                // { id: 4, name: "Jendra Wardhana", telpNumber: "123456789", email: "superhaikal@example.com", position: "VP" },
+                // { id: 5, name: "Depi Fitriani", telpNumber: "123456789", email: "superhaikal@example.com", position: "PM" },
+                // { id: 6, name: "Nahiyah Zahrah", telpNumber: "123456789", email: "superhaikal@example.com", position: "BA" },
+                // { id: 7, name: "Debian bukan linux", telpNumber: "123456789", email: "superhaikal@example.com", position: "BA" },
             ],
             itemsPerPage: 5,
             currentPage: 1,
