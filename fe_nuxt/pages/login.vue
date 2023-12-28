@@ -84,6 +84,7 @@ export default {
       axios.post('https://z8v4553q-8000.asse.devtunnels.ms/api/login/', loginData)
         .then((response) => {
           console.log('Login successful:', response.data);
+          localStorage.setItem('token', response.data.token)
           // Navigasi ke halaman dashboard setelah login berhasil
           router.push('/dashboard');
         })

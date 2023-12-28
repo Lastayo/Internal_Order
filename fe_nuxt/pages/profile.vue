@@ -1,55 +1,51 @@
 <template>
-  <div class="bg-gray-100 min-h-screen">
+  <div class="flex bg-[#EDF2F7] bg-cover min-h-screen">
     <LayoutsSidebar />
-    <LayoutsNavbar />
-    
-    <div class="profile-box bg-white shadow-lg rounded-md ml-80 p-10 mt-16 mr-10">
-      <div class="profile-data flex ">
-        <img class="profile-picture w-16 h-16 rounded-full mr-4" src="assets/man.png" />
-        <div class="user-info">
-          <div class="username text-lg font-semibold">Haikal Adibasta</div>
-          <div class="email text-sm text-gray-500">superhaikal@gmail.com</div>
+    <div class="flex-1 flex flex-col overflow-hidden">
+      <LayoutsNavbar />
+
+      <div class="profile-box bg-white shadow-lg rounded-md mx-12 p-10 mt-16 mr-10">
+        <div class="profile-data flex">
+          <img class="profile-picture w-16 h-16 rounded-full mr-4" src="assets/man.png" />
+          <div class="user-info">
+            <div class="username text-xl font-semibold">{{ user.nama }}</div>
+            <div class="email text-sm text-gray-500">{{ user.email }}</div>
+          </div>
+
+          <div class="delete-btn mt-4 flex justify-end gap-4 ml-auto">
+            <button @click="deleteProfilePicture" class="px-2 py-2 border-2 border-red-700 text-red-700 rounded-md">Delete
+              Avatar</button>
+            <button @click="openModal" class=" px-4 py-2 bg-red-700 text-white rounded-md">Edit Avatar</button>
+          </div>
         </div>
+        <hr class="garis-profil my-4">
+        <div class="personal-detail">
+          <div class="personal-text text-2xl font-semibold">Personal Details</div>
+          <div class="data-user">
+            <div class="flex gap-8 flex-col lg:flex-row">
 
-        <div class="delete-btn mt-4 flex justify-end gap-4 ml-auto">
-          <button @click="deleteProfilePicture" class="px-2 py-2 border-2 border-red-700 text-red-700 rounded-md">Delete
-            Avatar</button>
-          <button @click="openModal" class=" px-4 py-2 bg-red-700 text-white rounded-md">Edit Avatar</button>
-        </div>
-      </div>
-      <hr class="garis-profil my-4">
-      <div class="personal-detail">
-        <div class="personal-text text-2xl font-semibold">Personal Details</div>
-        <div class="data-user">
-          <div class="flex gap-8 flex-col lg:flex-row">
+              <div class="flex flex-col w-1/2">
+                <label class="font-medium pt-2 text-slate-700 mb-2">Name</label>
+                <div class="border border-gray-300 p-2 bg-gray-100 rounded placeholder-text text-gray-600">
+                  {{ user.nama }}</div>
 
-            <div class="flex flex-col w-1/2">
-              <label class=" font-medium pt-2 text-slate-700 mb-2">Name</label>
-              <div class="border border-gray-300 p-2 bg-gray-100 rounded placeholder-text text-gray-600">
-                {{
-                  profileNama }}</div>
+                <label class="font-medium pt-2 text-slate-700 mb-2">Position</label>
+                <div class="border border-gray-300 p-2 bg-gray-100 rounded placeholder-text text-gray-600">
+                  {{ user.hak_akses }}</div>
 
-              <label class=" font-medium pt-2 text-slate-700 mb-2">Position</label>
-              <div class="border border-gray-300 p-2 bg-gray-100 rounded placeholder-text text-gray-600">
-                {{
-                  profilePosition }}</div>
+                <label class="font-medium pt-2 text-slate-700 mb-2">Telp Number</label>
+                <div class="border border-gray-300 p-2 bg-gray-100 rounded placeholder-text text-gray-600">
+                  {{ user.phone }}</div>
+              </div>
+              <div class="flex flex-col w-1/2">
+                <label class="font-medium pt-2 text-slate-700 mb-2">Email</label>
+                <div class="border border-gray-300 p-2 bg-gray-100 rounded placeholder-text text-gray-600">
+                  {{ user.email }}</div>
 
-              <label class=" font-medium pt-2 text-slate-700 mb-2">Telp Number</label>
-              <div class="border border-gray-300 p-2 bg-gray-100 rounded placeholder-text text-gray-600">
-                {{
-                  profileTelp }}</div>
-            </div>
-            <div class="flex flex-col w-1/2">
-              <label class=" font-medium pt-2 text-slate-700 mb-2">Email</label>
-              <div class="border border-gray-300 p-2 bg-gray-100 rounded placeholder-text text-gray-600">
-                {{
-                  profileEmail }}</div>
-
-              <label class=" font-medium pt-2 text-slate-700 mb-2">Role</label>
-              <div class="border border-gray-300 p-2 bg-gray-100 rounded placeholder-text text-gray-600">
-                {{
-                  profileRole }}</div>
-
+                <label class="font-medium pt-2 text-slate-700 mb-2">Role</label>
+                <div class="border border-gray-300 p-2 bg-gray-100 rounded placeholder-text text-gray-600">
+                  {{ user.hak_akses }}</div>
+              </div>
             </div>
           </div>
         </div>
@@ -80,61 +76,23 @@ import axios from 'axios';
 export default {
   data() {
     return {
+      formData: {
+        nama: "",
+        email: "",
+        jabatan: "",
+        hak_akses: "",
+        phone: "",
+      },
+      user: {},
       isModalOpen: false,
       editedAvatar: null,
-      profile: null,
     };
   },
 
   computed: {
-    profileNama() {
-      return this.profile?.nama || ''; // Menggunakan optional chaining untuk menangani kasus null
-    },
-    profileEmail() {
-      return this.profile?.email || '';
-    },
-    profilePosition() {
-      return this.profile?.position || '';
-    },
-    profileRole() {
-      return this.profile?.role || '';
-    },
-    profileTelp() {
-      return this.profile?.telp || '';
-    },
   },
 
   methods: {
-    async fetchUserProfile() {
-      try {
-        const response = await axios.get('https://z8v4553q-8000.asse.devtunnels.ms/api/users/login', {
-          headers: {
-            Authorization: `Bearer ${this.$store.state.auth.token}`, // Assuming you have a Vuex store for authentication
-          },
-        });
-        this.profile = response.data;
-      } catch (error) {
-        console.error('Error fetching user profile:', error);
-      }
-      
-    },
-    
-    openModal() {
-      this.isModalOpen = true;
-    },
-
-    closeModal() {
-      this.isModalOpen = false;
-    },
-
-    handleFileChange(event) {
-      this.editedAvatar = event.target.files[0];
-    },
-
-    uploadEditedAvatar() {
-      console.log('Avatar edited and uploaded:', this.editedAvatar);
-      this.closeEditModal();
-    },
 
     async uploadEditedAvatar() {
       try {
@@ -155,51 +113,7 @@ export default {
         console.error('Error uploading avatar:', error);
       }
     },
-  },
 
-  created() {
-    // Fetch user profile data when the component is created
-    this.fetchUserProfile();
-  },
-};
-</script>
-
-
-<!-- <script>
-export default {
-  data() {
-    return {
-      isModalOpen: false,
-      editedAvatar: null,
-      profile: {
-        name: "Haikal Adibasta",
-        email: "superkal@gmail.com",
-        position: "Manager",
-        role: "Admin",
-        telp: "081234567890"
-      }
-    };
-  },
-
-  computed: {
-    profileName() {
-      return this.profile.name;
-    },
-    profileEmail() {
-      return this.profile.email;
-    },
-    profilePosition() {
-      return this.profile.position;
-    },
-    profileRole() {
-      return this.profile.role;
-    },
-    profileTelp() {
-      return this.profile.telp;
-    }
-  },
-
-  methods: {
     openModal() {
       this.isModalOpen = true;
     },
@@ -216,13 +130,31 @@ export default {
       console.log('Avatar edited and uploaded:', this.editedAvatar);
       this.closeEditModal();
     },
+
+
   },
+
+  created() {
+    // Fetch user profile data when the component is created
+    // this.fetchUserProfile();
+  },
+  mounted() {
+    let token = localStorage.getItem('token')
+
+    console.log(token)
+
+    axios.get('https://z8v4553q-8000.asse.devtunnels.ms/api/user/login/', {
+      headers: {
+        Authorization : `Bearer ${token}`,
+      },
+    }
+    ).then((res) => {
+      this.user = res.data
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }
 };
 </script>
 
-<style scoped>
-.detail-value .placeholder::before {
-  content: "Your Placeholder Text";
-  color: #A9A9A9;
-}
-</style> -->
