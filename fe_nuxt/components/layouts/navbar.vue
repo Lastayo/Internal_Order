@@ -2,8 +2,8 @@
   <div>
     <nav class="h-20 bg-cover" :style="{ 'background-image': 'url(/assets/nav-img.jpg)' }">
       <div class="sticky top-0 z-50">
-        <div @click="togglePopup" class="profile-section border-black rounded-full flex justify-end py-4 pr-10">
-          <img class="profile-picture w-10 h-10 rounded-full" src="/assets/haikal-profile.jpg" alt="Profile Picture" />
+        <div  class="profile-section border-black rounded-full flex justify-end py-4 pr-10">
+          <img @click="togglePopup" class="profile-picture w-10 h-10 rounded-full" src="/assets/haikal-profile.jpg" alt="Profile Picture" />
           <div v-if="showPopup"
             class="popup mt-0 mr-4 bg-white border border-gray-300 shadow-md rounded-xl w-56 absolute right-6 top-14">
             <div class="p-4 flex items-center">

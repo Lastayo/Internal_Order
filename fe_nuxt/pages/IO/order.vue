@@ -120,6 +120,7 @@ Haikal
                             </thead>
                             <tbody>
                                 <tr v-for="timeline in paginatedTimelines" :key="timeline.week">
+                                    {{ timeline }}
                                     <td class="py-4 px-6 border-b text-center">{{ timeline.week }}</td>
                                     <td class="py-2 px-6 border-b text-center">{{ timeline.activity }}</td>
                                     <td class="py-2 px-6 border-b text-center">
@@ -346,6 +347,7 @@ export default {
         paginatedTimelines() {
             const start = (this.currentPageTimeline - 1) * this.itemsPerPage;
             const end = start + this.itemsPerPage;
+            console.log(this.timelines)
             const filteredTimelines = this.timelines.slice(start, end);
             return filteredTimelines;
         },
@@ -549,34 +551,3 @@ export default {
 @import '@fortawesome/fontawesome-free/css/all.css';
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 </style>
-
-
-
-
-<!-- // pageNumbers() {
-    //     const maxVisiblePages = 10;
-    //     const pages = [];
-    //     if (this.totalPages <= maxVisiblePages) {
-    //         for (let i = 1; i <= this.totalPages; i++) {
-    //             pages.push(i);
-    //         }
-    //     } else {
-    //         pages.push(1);
-    //         const startPage = Math.max(2, this.currentPage - 2);
-    //         const endPage = Math.min(this.totalPages - 1, this.currentPage + 2);
-    //         if (startPage > 2) {
-    //             pages.push('...');
-    //         }
-    //         for (let i = startPage; i <= endPage; i++) {
-    //             pages.push(i);
-    //         }
-    //         if (endPage < this.totalPages - 1) {
-    //             pages.push('...');
-    //         }
-    //         pages.push(this.totalPages);
-    //     }
-    //     return pages;
-    // }, -->
-
-
-    hhhh

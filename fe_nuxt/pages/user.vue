@@ -9,10 +9,10 @@
       <LayoutsNavbar />
 
       <!-- User Box -->
-      <div class="flex-1 bg-white mx-12 my-10 px-8 pt-6 overflow-hidden flex flex-col rounded-2xl shadow-md">
+      <div class="flex-1 bg-white mx-12 my-10 px-8 overflow-hidden flex flex-col rounded-2xl shadow-md">
         <div class="mb-4 flex flex-col px-6 pt-4">
           <div class="text-4xl font-bold mb-4">User List</div>
-          <div class="flex pt-4">
+          <div class="flex">
             <input type="text" placeholder="Search user"
               class="px-3 py-1 border pr-16 rounded-md focus:outline-none focus:ring focus:border-blue-300" />
             <button @click="openModal" class="ml-auto px-4 py-2 bg-[#C53030] text-white rounded-md">
@@ -353,7 +353,7 @@ export default {
       userIdToDelete: null,
 
       isPasswordModalOpen: false,
-    passwordData: {
+      passwordData: {
       userId: null,
       oldPassword: '',
       newPassword: '',
