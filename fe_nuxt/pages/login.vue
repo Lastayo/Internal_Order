@@ -1,8 +1,10 @@
+
 <template>
   <section>
-    <div class="px-4 py-12 mx-auto max-w-7xl sm:px-6 md:px-12 lg:px-24 lg:py-24">
+    <div class="h-screen w-screen flex items-center justify-center bg-cover"
+      :style="{ 'background-image': 'url(/assets/gray-bg.jpg)' }">
       <div
-        class="justify-center mx-auto text-left align-bottom transition-all transform bg-white rounded sm:align-middle sm:max-w-md sm:w-full">
+        class="mx-auto text-left align-bottom transition-all transform bg-white rounded sm:align-middle sm:max-w-md sm:w-full">
         <div class="grid flex-wrap items-center justify-center grid-cols-1 mx-auto shadow-xl lg:grid-cols-1 rounded-xl">
           <div class="w-full px-8 py-5">
             <div>
@@ -12,13 +14,12 @@
               </div>
               <div class="mt-3 sm:mt-5">
                 <div class="inline-flext flex items-center justify-center w-full">
-                  <h3 class="text-lg font-bold text-neutral-600 leading-6 lg:text-3xl text-center">Welcome
+                  <h3 class="text-lg font-bold text-black leading-6 lg:text-3xl text-center">Welcome
                     Back!</h3>
                 </div>
 
               </div>
             </div>
-
 
             <form @submit.prevent="handleLogin">
               <div class="mt-6 space-y-2">
@@ -26,7 +27,7 @@
                   <h3>Email</h3>
                   <label for="email" class="sr-only">Email</label>
                   <input type="text" name="email" id="email"
-                    class="block w-full px-3 py-1 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-gray rounded bg-with-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
+                    class="block w-full px-3 py-1 text-base placeholder-gray-300 transition duration-500 ease-in-out transform border border-gray rounded bg-with-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
                     placeholder="Input your email" v-model="email" />
                 </div>
                 <div>
@@ -40,7 +41,6 @@
                       @click="togglePasswordVisibility">
                       <i :class="showPassword ? 'fas fa-eye' : 'fas fa-eye-slash'"></i>
                     </button>
-
                   </div>
                 </div>
 
@@ -52,10 +52,7 @@
                 </div>
               </div>
             </form>
-        </div>
-        <!-- <div class="order-first hidden w-full lg:block">
-                                  <img class="object-cover h-full bg-cover rounded-l-lg" src="../assets/bg.jpg" alt="" />
-                                </div> -->
+          </div>
         </div>
       </div>
     </div>
@@ -63,21 +60,52 @@
 </template>
 
 <script>
+import axios from 'axios';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+
 export default {
-  data() {
-    return {
-      email: '',
-      password: '',
-      showPassword: false,
+  setup() {
+    const email = ref('');
+    const password = ref('');
+    const showPassword = ref(false);
+    const router = useRouter();
+
+    const togglePasswordVisibility = () => {
+      showPassword.value = !showPassword.value;
     };
-  },
-  methods: {
-    handleLogin() {
-      console.log('Login clicked. Email:', this.email, 'Password:', this.password);
-    },
-    togglePasswordVisibility() {
-      this.showPassword = !this.showPassword;
-    },
+
+    const handleLogin = () => {
+      const loginData = {
+        email: email.value,
+        password: password.value,
+      };
+
+      axios.post('https://z8v4553q-8000.asse.devtunnels.ms/api/login/', loginData)
+        .then((response) => {
+          console.log('Login successful:', response.data);
+          // Navigasi ke halaman dashboard setelah login berhasil
+          router.push('/dashbord');
+        })
+        .catch((error) => {
+          if (error.response) {
+            // Objek error.response ada, kita dapat membaca propertinya
+            console.error('Login failed. Server response:', error.response);
+            console.error('Error message:', error.response.data);
+          } else {
+            // Objek error.response tidak ada, mungkin masalah koneksi atau server mati
+            console.error('Login failed. Unable to connect to the server.');
+          }
+        });
+    };
+
+    return {
+      email,
+      password,
+      showPassword,
+      togglePasswordVisibility,
+      handleLogin,
+    };
   },
 };
 </script>

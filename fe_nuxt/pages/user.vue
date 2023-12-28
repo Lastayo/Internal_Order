@@ -10,9 +10,8 @@
 
       <!-- User Box -->
       <div class="flex-1 bg-white px-8 pt-6 overflow-hidden flex flex-col m-10 ml-80 rounded-2xl shadow-md">
-        <div class="mb-4 flex flex-col px-8 pt-4">
+        <div class="mb-4 flex flex-col px-6 pt-4">
           <div class="text-4xl font-bold mb-4">User List</div>
-
           <div class="flex pt-4">
             <input type="text" placeholder="Search user"
               class="px-3 py-1 border pr-16 rounded-md focus:outline-none focus:ring focus:border-blue-300" />
@@ -23,7 +22,7 @@
         </div>
 
         <!-- User Table -->
-        <div class="overflow-x-auto px-8">
+        <div class="overflow-x-auto px-6">
           <table class="min-w-full bg-white border-collapse rounded-md">
             <thead>
               <tr>
@@ -36,25 +35,26 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="user in paginatedUsers" :key="user.id">
-                <td class="py-4 px-4 border-b text-center">{{ user.id }}</td>
-                <td class="py-2 px-4 border-b text-center">{{ user.name }}</td>
-                <td class="py-2 px-4 border-b text-center">{{ user.telpNumber }}</td>
+              <tr v-for="user in usersData" :key="user.id_user">
+                <td class="py-4 px-4 border-b text-center">{{ user.id_user }}</td>
+                <td class="py-2 px-4 border-b text-center">{{ user.nama }}</td>
+                <td class="py-2 px-4 border-b text-center">{{ user.phone }}</td>
                 <td class="py-2 px-4 border-b text-center">{{ user.email }}</td>
-                <td class="py-2 px-4 border-b text-center">{{ user.role }}</td>
+                <td class="py-2 px-4 border-b text-center">{{ user.hak_akses }}</td>
                 <td class="py-2 px-4 border-b text-center">
-                  <button class="mr-2" @click="confirmDelete(user.id)">
+                  <button class="mr-2" @click="confirmDelete(user.id_user)">
                     <!-- Delete Icon -->
                     <i class="fas fa-trash-can"></i>
                   </button>
                   <button class="mr-2">
                     <!-- Edit Icon -->
-                    <i class="fas fa-edit" @click="openRoleModal(user.id, user.role)"></i>
+                    <i class="fas fa-edit" @click="openRoleModal(user.id_user, user.role)"></i>
                   </button>
-                  <button class="mr-2" @click="openPasswordModal(user.id)">
+                  <button class="mr-2" @click="openPasswordModal(user.id_user)">
                     <!-- Lock Icon -->
                     <i class="fas fa-key"></i>
                   </button>
+
 
 
                 </td>
@@ -63,22 +63,23 @@
           </table>
 
           <!-- Tombol Next, Previous, dan Nomor Halaman -->
-          <div class="flex justify-center items-center mt-4 space-x-4">
-            <button @click="prevPage" :disabled="currentPage === 1" class="py-2 text-gray-600 rounded-md">
-              Prev
-            </button>
-            <div class="flex items-center space-x-2">
-              <button v-for="pageNumber in pageNumbers" :key="pageNumber" @click="goToPage(pageNumber)" :class="{
-                'bg-[#C53030] text-white rounded-lg py-2 px-4 text-md': pageNumber === currentPage,
-                'text-sm text-black-600 border-2 rounded-lg py-2 px-4': pageNumber !== currentPage,
-              }">
-                {{ pageNumber }}
-              </button>
-            </div>
-            <button @click="nextPage" :disabled="currentPage === totalPages" class="py-2 text-black-600 rounded-md">
-              Next
+
+        </div>
+        <div class="flex justify-center items-center mt-4 space-x-4 pb-4">
+          <button @click="prevPage" :disabled="currentPage === 1" class="py-2 text-gray-600 rounded-md">
+            Prev
+          </button>
+          <div class="flex items-center space-x-2">
+            <button v-for="pageNumber in pageNumbers" :key="pageNumber" @click="goToPage(pageNumber)" :class="{
+              'bg-[#C53030] text-white rounded-lg py-2 px-4 text-md': pageNumber === currentPage,
+              'text-sm text-black-600 border-2 rounded-lg py-2 px-4': pageNumber !== currentPage,
+            }">
+              {{ pageNumber }}
             </button>
           </div>
+          <button @click="nextPage" :disabled="currentPage === totalPages" class="py-2 text-black-600 rounded-md">
+            Next
+          </button>
         </div>
       </div>
     </div>
@@ -110,7 +111,7 @@
     </div>
 
 
-    <!-- Modal UpdateRole -->
+    <!-- Modal Edit User -->
     <div v-if="isRoleModalOpen" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
       <div class="bg-white sm:w-full md:w-2/3 lg:w-1/2 xl:w-1/3 px-4 py-4 rounded-xl">
         <div class="flex justify-end">
@@ -119,24 +120,54 @@
           </button>
         </div>
         <div class="bg-white px-6 rounded-lg w-full">
-          <form @submit.prevent="updateUserRole">
+          <form @submit.prevent="editUser">
+            <div class="mb-2">
+              <label for="name" class="block text-md font-medium text-gray-600">
+                Name
+              </label>
+              <input v-model="userRoleData.nama" type="text" id="nama" name="name"
+                class="text-sm mt-1 p-2 border-2 rounded-md w-full" placeholder="Input Name User" required />
+            </div>
+            <!-- Tambahkan bagian formulir untuk setiap properti pengguna yang perlu diedit -->
+            <div class="mb-2">
+              <label for="email" class="block text-md font-medium text-gray-600">
+                Email
+              </label>
+              <input v-model="userRoleData.email" type="email" id="email" name="email"
+                class="text-sm mt-1 p-2 border-2 rounded-md w-full" placeholder="Input Email User" required />
+            </div>
+            <div class="mb-2">
+              <label for="jabatan" class="block text-md font-medium text-gray-600">
+                Position
+              </label>
+              <input v-model="userRoleData.jabatan" type="text" id="jabatan" name="position"
+                class="text-sm mt-1 p-2 border-2 rounded-md w-full" placeholder="Input User Position" required />
+            </div>
+            <div class="mb-2">
+              <label for="phone" class="block text-md font-medium text-gray-600">
+                Phone
+              </label>
+              <input v-model="userRoleData.phone" type="text" id="phone" name="phone"
+                class="text-sm mt-1 p-2 border-2 rounded-md w-full" placeholder="Input User Phone" required />
+            </div>
             <div class="mb-4">
               <label class="block text-md font-medium text-gray-600">Role</label>
               <div class="flex items-center space-x-2">
-                <input v-model="userRoleData.role" type="radio" id="admin" name="role" value="admin"
+                <input v-model="userRoleData.hak_akses" type="radio" id="admin" name="role" value="admin"
                   class="border-gray-300" />
                 <label for="admin" class="text-sm text-gray-600">Admin</label>
-                <input v-model="userRoleData.role" type="radio" id="user" name="role" value="user"
+                <input v-model="userRoleData.hak_akses" type="radio" id="user" name="role" value="user"
                   class="rounded-full border-gray-300" />
                 <label for="user" class="text-sm text-gray-600">User</label>
               </div>
             </div>
             <div class="flex justify-center">
               <button type="submit" class="px-4 py-2 bg-[#C53030] text-white rounded-md mb-4 w-full sm:w-auto">
-                Update Role
+                Update User
               </button>
             </div>
           </form>
+
         </div>
       </div>
     </div>
@@ -153,18 +184,12 @@
         </div>
         <div class="bg-white px-6 rounded-lg w-full">
           <form @submit.prevent="addUser">
-            <div class="mb-2">
-              <label for="employeeId" class="block text-md font-medium text-gray-600">
-                Employee ID
-              </label>
-              <input v-model="newUser.employeeId" type="text" id="employeeId" name="employeeId"
-                class="mt-1 p-2 border-2 rounded-md w-full sm:w-96 text-sm" placeholder="Input Employee ID" required />
-            </div>
+
             <div class="mb-2">
               <label for="name" class="block text-md font-medium text-gray-600">
                 Name
               </label>
-              <input v-model="newUser.name" type="text" id="name" name="name"
+              <input v-model="newUser.nama" type="text" id="nama" name="name"
                 class="text-sm mt-1 p-2 border-2 rounded-md w-full" placeholder="Input Name User" required />
             </div>
             <div class="mb-2">
@@ -173,6 +198,21 @@
               </label>
               <input v-model="newUser.email" type="email" id="email" name="email"
                 class="text-sm mt-1 p-2 border-2 rounded-md w-full" placeholder="Input Email User" required />
+            </div>
+            <div class="mb-2">
+              <label for="jabatan" class="block text-md font-medium text-gray-600">
+                Position
+              </label>
+              <input v-model="newUser.jabatan" type="text" id="jabatan" name="position"
+                class="text-sm mt-1 p-2 border-2 rounded-md w-full" placeholder="Input User Position" required />
+            </div>
+
+            <div class="mb-2">
+              <label for="phone" class="block text-md font-medium text-gray-600">
+                Phone
+              </label>
+              <input v-model="newUser.phone" type="text" id="phone" name="phone"
+                class="text-sm mt-1 p-2 border-2 rounded-md w-full" placeholder="Input User Phone" required />
             </div>
             <div class="mb-2">
               <label for="password" class="block text-md font-medium text-gray-600">
@@ -184,9 +224,10 @@
             <div class="mb-4">
               <label class="block text-md font-medium text-gray-600">Role</label>
               <div class="flex items-center space-x-2">
-                <input v-model="newUser.role" type="radio" id="admin" name="role" value="admin" class="border-gray-300" />
+                <input v-model="newUser.hak_akses" type="radio" id="admin" name="role" value="admin"
+                  class="border-gray-300" />
                 <label for="admin" class="text-sm text-gray-600">Admin</label>
-                <input v-model="newUser.role" type="radio" id="user" name="role" value="user"
+                <input v-model="newUser.hak_akses" type="radio" id="user" name="role" value="user"
                   class="rounded-full border-gray-300" />
                 <label for="user" class="text-sm text-gray-600">User</label>
               </div>
@@ -237,34 +278,86 @@
 
 
     </div>
+
+
+   <!-- Modal Update Password -->
+   <div v-if="isPasswordModalOpen" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
+  <div class="bg-white sm:w-full md:w-2/3 lg:w-1/2 xl:w-1/3 px-4 py-4 rounded-xl">
+    <div class="flex justify-end">
+      <button @click="closePasswordModal" class="text-black-200 bg-gray-200 hover:bg-gray-300 px-2 rounded-full">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="bg-white px-6 rounded-lg w-full">
+      <form @submit.prevent="updatePassword">
+        <div class="mb-2">
+          <label for="oldPassword" class="block text-md font-medium text-gray-600">
+            Old Password
+          </label>
+          <div class="relative">
+            <input v-model="passwordData.oldPassword" type="password" id="oldPassword" name="oldPassword"
+              class="mt-1 p-2 border-2 rounded-md w-full text-sm" :placeholder="'Password Lama: ' + passwordData.oldPassword" :readonly="true" />
+            <span @click="toggleOldPasswordVisibility" class="absolute inset-y-0 right-0 pr-2 flex items-center cursor-pointer">
+              <i v-if="showOldPassword" class="fas fa-eye-slash"></i>
+              <i v-else class="fas fa-eye"></i>
+            </span>
+          </div>
+        </div>
+        <div class="mb-2">
+          <label for="newPassword" class="block text-md font-medium text-gray-600">
+            New Password
+          </label>
+          <input v-model="passwordData.newPassword" type="password" id="newPassword" name="newPassword"
+            class="text-sm mt-1 p-2 border-2 rounded-md w-full" placeholder="Masukkan Password Baru" required />
+        </div>
+        <div class="flex justify-center">
+          <button type="submit" class="px-4 py-2 bg-[#C53030] text-white rounded-md mb-4 w-full sm:w-auto">
+            Perbarui Password
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
+  http: {
+    baseURL: 'https://z8v4553q-8000.asse.devtunnels.ms/api/users/', // Sesuaikan dengan URL backend Anda
+  },
   data() {
     return {
+
+      passwordUser: null,
+
+      showOldPassword: false,
+
       users: [
-        { id: 2, name: "Haikal Adibasta", telpNumber: "123456789", email: "superhaikal@example.com", role: "Admin" },
-        { id: 3, name: "Atsal fais", telpNumber: "123456789", email: "superhaikal@example.com", role: "Admin" },
-        { id: 4, name: "Jendra Wardhana", telpNumber: "123456789", email: "superhaikal@example.com", role: "Admin" },
-        { id: 5, name: "Depi Fitriani", telpNumber: "123456789", email: "superhaikal@example.com", role: "Admin" },
-        { id: 6, name: "Nahiyah Zahrah", telpNumber: "123456789", email: "superhaikal@example.com", role: "Admin" },
-        { id: 7, name: "Debian bukan linux", telpNumber: "123456789", email: "superhaikal@example.com", role: "Admin" },
+        { id: 2, name: "Haikal Adibasta", telpNumber: "123456789", email: "superhaikal@example.com", role: "Admin", passwordData: [{ oldPassword: "hallo", newPassword: "hai" }] },
+
       ],
+      usersData: [],
       itemsPerPage: 5,
       currentPage: 1,
       isModalOpen: false,
       isDeleteModalOpen: false,
-      isPasswordModalOpen: false,
+
       isRoleModalOpen: false,
       userIdToDelete: null,
 
       isPasswordModalOpen: false,
-      passwordData: {
-        oldPassword: '',
-        newPassword: '',
-      },
+    passwordData: {
+      userId: null,
+      oldPassword: '',
+      newPassword: '',
+    },
 
       isRoleModalOpen: false,
       userRoleData: {
@@ -278,6 +371,9 @@ export default {
         email: "",
         password: "",
         role: "",
+        // Tambahkan properti baru
+        position: "",
+        phone: "",
       },
     };
   },
@@ -317,6 +413,54 @@ export default {
     },
   },
   methods: {
+
+    toggleOldPasswordVisibility() {
+      this.showOldPassword = !this.showOldPassword;
+      const oldPasswordInput = document.getElementById('oldPassword');
+      if (oldPasswordInput) {
+        oldPasswordInput.type = this.showOldPassword ? 'text' : 'password';
+      }
+    },
+
+    openPasswordModal(userId) {
+    // Cari data pengguna berdasarkan userId
+    const user = this.usersData.find(user => user.id_user === userId);
+
+    // Setel nilai passwordData.oldPassword dengan password lama dari data pengguna
+    this.passwordData.oldPassword = user.password;
+
+    // Buka modal
+    this.isPasswordModalOpen = true;
+  },
+
+  closePasswordModal() {
+    this.isPasswordModalOpen = false;
+    this.passwordData = {
+      userId: null,
+      oldPassword: '',
+      newPassword: '',
+    };
+  },
+
+  updatePassword() {
+    // Make an API call to update the password
+    axios
+      .patch(`https://z8v4553q-8000.asse.devtunnels.ms/api/users/${this.passwordData.userId}/password/`, {
+        oldPassword: this.passwordData.oldPassword,
+        newPassword: this.passwordData.newPassword,
+      })
+      .then(response => {
+        // Handle successful response (e.g., show success message)
+        console.log('Password updated successfully:', response.data);
+        // Close the password modal
+        this.closePasswordModal();
+      })
+      .catch(error => {
+        // Handle errors (e.g., show error message)
+        console.error('Failed to update password:', error);
+      });
+  },
+
     nextPage() {
       if (this.currentPage < this.totalPages) {
         this.currentPage++;
@@ -332,16 +476,21 @@ export default {
     },
     openModal() {
       this.isModalOpen = true;
+      // Reset modal state
       this.isDeleteModalOpen = false;
       this.isPasswordModalOpen = false;
       this.isRoleModalOpen = false;
     },
-
     closeModal() {
       this.isModalOpen = false;
+      // Reset modal state
+      this.isDeleteModalOpen = false;
+      this.isPasswordModalOpen = false;
+      this.isRoleModalOpen = false;
+      // Reset form data jika diperlukan
       this.newUser = {
         employeeId: "",
-        name: "",
+        nama: "",
         email: "",
         password: "",
         role: "",
@@ -349,11 +498,34 @@ export default {
     },
 
     addUser() {
-      this.users.push({ ...this.newUser, id: this.users.length + 1 });
-      this.closeModal();
+      // Perbarui metode untuk menyertakan data position dan phone
+      axios
+        .post('https://z8v4553q-8000.asse.devtunnels.ms/api/users/', {
+
+          nama: this.newUser.nama,
+          email: this.newUser.email,
+          password: this.newUser.password,
+          hak_akses: this.newUser.hak_akses,
+          jabatan: this.newUser.jabatan, // Tambahkan properti position
+          phone: this.newUser.phone, // Tambahkan properti phone
+        })
+        .then(response => {
+          // Dapatkan ID yang baru ditetapkan oleh server dan tambahkan ke array lokal
+          const newUserWithId = { ...this.newUser, id_user: response.data.id_user };
+          this.usersData.push(newUserWithId);
+
+          this.closeModal();
+        })
+        .catch(error => {
+          console.error('Gagal menambahkan user:', error);
+          // Tambahkan penanganan kesalahan sesuai kebutuhan
+          this.closeModal();
+        });
     },
     confirmDelete(userId) {
-      this.userIdToDelete = userId;
+      axios.delete('https://z8v4553q-8000.asse.devtunnels.ms/api/users/' + userId).then((res) => console.log(res))
+      this.userIdToDelete = userId
+      console.log(userId)
       this.isDeleteModalOpen = true;
     },
 
@@ -363,42 +535,43 @@ export default {
     },
 
     deleteUser() {
-      // Lakukan penghapusan user sesuai userIdToDelete
-      const indexToDelete = this.users.findIndex(user => user.id === this.userIdToDelete);
-      if (indexToDelete !== -1) {
-        this.users.splice(indexToDelete, 1);
-      }
+      axios
+        .delete(`https://z8v4553q-8000.asse.devtunnels.ms/api/users/${this.userIdToDelete}/`)
+        .then(() => {
+          const indexToDelete = this.usersData.findIndex(user => user.id_user === this.userIdToDelete);
+          if (indexToDelete !== -1) {
+            this.usersData.splice(indexToDelete, 1);
+          }
 
-      // Tutup modal konfirmasi penghapusan
-      this.isDeleteModalOpen = false;
-      this.userIdToDelete = null;
+          this.isDeleteModalOpen = false;
+          this.userIdToDelete = null;
+        })
+        .catch(error => {
+          console.error('Gagal menghapus user:', error);
+          // Tambahkan penanganan kesalahan sesuai kebutuhan
+          this.isDeleteModalOpen = false;
+          this.userIdToDelete = null;
+        });
     },
-    openPasswordModal() {
-      this.isPasswordModalOpen = true;
-      this.isModalOpen = false;
-      this.isDeleteModalOpen = false;
-      this.isRoleModalOpen = false;
-    },
-
-    closePasswordModal() {
-      this.isPasswordModalOpen = false;
-      this.passwordData = {
-        oldPassword: '',
-        newPassword: '',
-      };
-    },
-
 
     openRoleModal(userId, currentRole) {
+      // Cari data pengguna berdasarkan userId
+      const userToEdit = this.usersData.find(user => user.id_user === userId);
+
+      // Setel nilai userRoleData dengan data pengguna sebelumnya
       this.userRoleData = {
         userId: userId,
-        role: currentRole,
+        nama: userToEdit.nama,
+        email: userToEdit.email,
+        jabatan: userToEdit.jabatan,
+        phone: userToEdit.phone,
+        hak_akses: userToEdit.hak_akses,
       };
+
+      // Buka modal
       this.isRoleModalOpen = true;
-      this.isModalOpen = false;
-      this.isDeleteModalOpen = false;
-      this.isPasswordModalOpen = false;
     },
+
 
     closeRoleModal() {
       this.isRoleModalOpen = false;
@@ -408,22 +581,55 @@ export default {
       };
     },
 
-    updateUserRole() {
-      // Lakukan pembaruan peran pengguna sesuai userRoleData
-      const userIndex = this.users.findIndex(user => user.id === this.userRoleData.userId);
-      if (userIndex !== -1) {
-        this.users[userIndex].role = this.userRoleData.role;
-      }
+    editUser() {
+      axios
+        .patch(`https://z8v4553q-8000.asse.devtunnels.ms/api/users/${this.userRoleData.userId}/`, {
+          nama: this.userRoleData.nama,
+          email: this.userRoleData.email,
+          jabatan: this.userRoleData.jabatan,
+          phone: this.userRoleData.phone,
+          hak_akses: this.userRoleData.hak_akses, // Tambahkan pembaruan untuk hak_akses
+          // Jangan menyertakan password
+        })
+        .then(response => {
+          const userIndex = this.usersData.findIndex(user => user.id_user === this.userRoleData.userId);
+          if (userIndex !== -1) {
+            // Update data pengguna dalam data lokal
+            this.usersData[userIndex].nama = this.userRoleData.nama;
+            this.usersData[userIndex].email = this.userRoleData.email;
+            this.usersData[userIndex].jabatan = this.userRoleData.jabatan;
+            this.usersData[userIndex].phone = this.userRoleData.phone;
+            this.usersData[userIndex].hak_akses = this.userRoleData.hak_akses; // Update hak_akses
+          }
 
-      // Tutup modal pembaruan peran
-      this.isRoleModalOpen = false;
-      this.userRoleData = {
-        userId: null,
-        role: "",
-      };
+          this.isRoleModalOpen = false;
+          this.userRoleData = {
+            userId: null,
+            nama: "",
+            email: "",
+            jabatan: "",
+            phone: "",
+            hak_akses: "",
+          };
+        })
+        .catch(error => {
+          console.error('Gagal mengedit pengguna:', error);
+        });
     },
 
+
+
+
   },
+  mounted() {
+    axios
+    .get('https://z8v4553q-8000.asse.devtunnels.ms/api/users/')
+    .then((res) => {
+      // Sort usersData by id_user in ascending order
+      this.usersData = res.data.sort((a, b) => a.id_user - b.id_user);
+    })
+    .catch((err) => console.log(err));
+  }
 };
 </script>
 
