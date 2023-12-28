@@ -243,34 +243,34 @@ canvas {
 
 
 <template>
-    <div class="bg-gray-200 bg-cover min-h-screen">
-      <LayoutsNavbar />
-      <div class="content flex">
-        <LayoutsSidebar />
-        <div class="py-8 ">
+    <div class="flex bg-[#EDF2F7] bg-cover min-h-screen">
+      <LayoutsSidebar />
+      <div class="flex-1 flex flex-col overflow-hidden">
+        <LayoutsNavbar />
+        <div class="py-8 px-12 ">
           <div class="w-full flex flex-col p-5 bg-red-600 rounded">
             <h1 class="text-white font-semibold text-md md:text-xl lg:text-2xl">Welcome Back!</h1>
             <h1 class="text-white font-bold text-2xl md:text-3xl lg:text-4xl">Nahiya Zahrah As Admin</h1>
           </div>
   
           <div class="py-6 flex space-x-7">
-            <div class="h-32 w-80 flex flex-col border-2 p-6 text-center bg-white rounded-lg">
+            <div class="h-32   w-full flex flex-col border-2 p-6 text-center bg-white rounded-lg">
               <h1 class="text-black font-bold text-xl">Internal Order Project</h1>
             </div>
-            <div class="h-32 w-80 flex flex-col border-2 p-6 text-center bg-white rounded-lg">
+            <div class="h-32 w-full flex flex-col border-2 p-6 text-center bg-white rounded-lg">
               <h1 class="text-black font-bold text-xl">Total Project</h1>
             </div>
-            <div class="h-32 w-80 flex flex-col border-2 p-6 text-center bg-white rounded-lg">
+            <div class="h-32 w-full flex flex-col border-2 p-6 text-center bg-white rounded-lg">
               <h1 class="text-black font-bold text-xl">Project Charter</h1>
             </div>
           </div>
   
           <div class="flex space-x-14">
-            <div class="h-72 px-28 flex flex-col border-2 p-6 text-center bg-white rounded-lg">
+            <div class="h-72 w-full flex flex-col border-2 p-6 text-center bg-white rounded-lg">
               <h1 class="text-black font-bold text-xl">Internal Order Status Bar</h1>
               <canvas ref="iosbChart"></canvas>
             </div>
-            <div class="h-72 px-28 flex flex-col border-2 p-6 text-center bg-white rounded-lg">
+            <div class="h-72 w-full flex flex-col border-2 p-6 text-center bg-white rounded-lg">
               <h1 class="text-black font-bold text-xl">Project Charter Status Bar</h1>
               <canvas ref="pcsbChart"></canvas>
             </div>

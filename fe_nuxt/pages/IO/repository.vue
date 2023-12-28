@@ -10,7 +10,7 @@ jendra
             <LayoutsNavbar />
 
             <!-- Main Content -->
-            <div class="IOform flex-1 bg-white px-8 pt-6 overflow-hidden flex flex-col m-10 ml-80 rounded-2xl shadow-md">
+            <div class="IOform flex-1 bg-white px-8 pt-6 overflow-hidden flex flex-col m-10 mx-12 rounded-2xl shadow-md">
                 <!-- Step 1 -->
                 <div v-if="currentStep === 1" class="">
                     <div class="mb-4 flex flex-col px-6 pt-4">

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex bg-[#EDF2F7] bg-cover min-h-screen">
+  <div class="flex bg-[#EDF2F7] bg-cover min-h-screen"> 
     <!-- Sidebar -->
     <LayoutsSidebar />
 
@@ -9,7 +9,7 @@
       <LayoutsNavbar />
 
       <!-- User Box -->
-      <div class="flex-1 bg-white px-8 pt-6 overflow-hidden flex flex-col m-10 ml-80 rounded-2xl shadow-md">
+      <div class="flex-1 bg-white mx-12 my-10 px-8 pt-6 overflow-hidden flex flex-col rounded-2xl shadow-md">
         <div class="mb-4 flex flex-col px-6 pt-4">
           <div class="text-4xl font-bold mb-4">User List</div>
           <div class="flex pt-4">

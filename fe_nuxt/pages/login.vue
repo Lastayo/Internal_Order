@@ -85,7 +85,7 @@ export default {
         .then((response) => {
           console.log('Login successful:', response.data);
           // Navigasi ke halaman dashboard setelah login berhasil
-          router.push('/dashbord');
+          router.push('/dashboard');
         })
         .catch((error) => {
           if (error.response) {
