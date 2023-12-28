@@ -8,7 +8,7 @@
             <!-- Navbar -->
             <LayoutsNavbar />
 
-            <div class="IOform flex-1 bg-white px-8 pt-6 overflow-hidden flex flex-col m-10 ml-80 rounded-2xl shadow-md">
+            <div class="IOform flex-1 bg-white px-8 pt-6 overflow-hidden flex flex-col m-10 ml-12 rounded-2xl shadow-md">
                 <!-- Step 1 -->
                 <div v-if="currentStep === 1" class="pt-6">
                     <div class="mb-4 flex flex-col pt-4">

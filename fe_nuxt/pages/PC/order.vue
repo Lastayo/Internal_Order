@@ -8,7 +8,7 @@
             <!-- Navbar -->
             <LayoutsNavbar />
 
-            <div class="IOform flex-1 bg-white px-8 pt-6 overflow-hidden flex flex-col m-10 ml-80 rounded-2xl shadow-md">
+            <div class="IOform flex-1 bg-white px-8 pt-6 overflow-hidden flex flex-col m-10 mx-12 rounded-2xl shadow-md">
 
 
                 <!-- Langkah 1: Requester dan High Level Design -->

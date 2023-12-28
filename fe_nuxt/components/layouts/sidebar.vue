@@ -167,7 +167,7 @@ ul ul {
 
             <div class="pt-36 ">
                 <ul class="list-none">
-                    <li @click="navigateTo('/dashbord')" class="cursor-pointer flex items-center">
+                    <li @click="navigateTo('/dashboard')" class="cursor-pointer flex items-center">
                         <i class="fas fa-home px-4 text-xl"></i>Dashboard
                     </li>
                     <li @click="navigateTo('/user')" class="cursor-pointer flex items-center">
@@ -268,7 +268,7 @@ export default {
     width: 280px;
     background-color: #ffffff;
     color: rgb(82, 82, 82)000;
-    position: fixed;
+    position: relatived;
     /* Fixed position so it stays visible while scrolling */
     height: 100vh;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
