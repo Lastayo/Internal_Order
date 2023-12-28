@@ -1,4 +1,4 @@
-fikri
+Haikal
 
 <template>
     <div class="flex bg-[#EDF2F7] bg-cover min-h-screen">
