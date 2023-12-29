@@ -6,7 +6,7 @@
 
       <div class="profile-box bg-white shadow-lg rounded-md mx-12 p-10 mt-16 mr-10">
         <div class="profile-data flex">
-          <img class="profile-picture w-16 h-16 rounded-full mr-4" src="assets/man.png" />
+          <img class="profile-picture w-16 h-16 rounded-full mr-4" src="user.profile_picture" />
           <div class="user-info">
             <div class="username text-xl font-semibold">{{ user.nama }}</div>
             <div class="email text-sm text-gray-500">{{ user.email }}</div>
@@ -24,22 +24,22 @@
           <div class="data-user">
             <div class="flex gap-8 flex-col lg:flex-row">
 
-              <div class="flex flex-col w-1/2">
+              <div class="flex flex-col w-full">
                 <label class="font-medium pt-2 text-slate-700 mb-2">Name</label>
                 <div class="border border-gray-300 p-2 bg-gray-100 rounded placeholder-text text-gray-600">
                   {{ user.nama }}</div>
 
                 <label class="font-medium pt-2 text-slate-700 mb-2">Position</label>
                 <div class="border border-gray-300 p-2 bg-gray-100 rounded placeholder-text text-gray-600">
-                  {{ user.hak_akses }}</div>
+                  {{ user.jabatan }}</div>
 
                 <label class="font-medium pt-2 text-slate-700 mb-2">Telp Number</label>
                 <div class="border border-gray-300 p-2 bg-gray-100 rounded placeholder-text text-gray-600">
                   {{ user.phone }}</div>
               </div>
-              <div class="flex flex-col w-1/2">
+              <div class="flex flex-col w-full">
                 <label class="font-medium pt-2 text-slate-700 mb-2">Email</label>
-                <div class="border border-gray-300 p-2 bg-gray-100 rounded placeholder-text text-gray-600">
+                <div class="flex border border-gray-300 p-2 bg-gray-100 rounded placeholder-text text-gray-600">
                   {{ user.email }}</div>
 
                 <label class="font-medium pt-2 text-slate-700 mb-2">Role</label>
@@ -54,17 +54,26 @@
 
     <!-- Modal EditAvatar  -->
     <div v-if="isModalOpen" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
-      <div class="bg-white px-16 py-20 rounded-xl w-auto relative">
-        <div class="flex items-center">
-          <img class="w-40 h-40 border-4 border-grey-800 rounded-full mx-28" />
+      <div class="bg-white px-10 py-10 rounded-xl w-auto relative">
+        <div class="flex items-center ">
+          <!-- <img class="w-40 h-40 border-4 border-grey-800 rounded-full mx-28" /> -->
         </div>
         <span @click="closeModal"
           class="closeModal absolute top-4 right-4 text-gray-600 hover:text-gray-800 cursor-pointer text-2xl">&times;</span>
-        <div class="w-32 h-30 mx-30 mb-20 rounded-full overflow-hidden">
-          <img v-if="editedAvatar" :src="editedAvatar" alt="Profile Picture" class="w-full h-full object-cover">
+        <div class="w-40 h-40 border-4 border-grey-800 rounded-full mx-28">
+          <img v-if="editedAvatar" :src="editedAvatar" class="w-full h-full object-cover rounded-full">
         </div>
-        <input type="file" @change="handleFileChange" class="file-input" accept="image/*">
-        <button @click="uploadEditedAvatar" class="upload-btn bg-red-700 px-4 py-1 rounded-md text-white">Upload</button>
+        <div class="pilih-file pt-4 flex justify-center">
+          <label for="fileInput"
+            class="bg-green-500 text-white text-center font-semibold p-2 w-40 rounded-md cursor-pointer">
+            Pilih foto
+          </label>
+          <input id="fileInput" type="file" @change="handleFileChange" style="display: none;">
+        </div>
+        <div class="flex justify-center m-2">
+          <button @click="uploadEditedAvatar"
+            class="upload-btn bg-red-700 w-40 py-2 rounded-md text-center text-white">Upload</button>
+        </div>
       </div>
     </div>
   </div>
@@ -99,7 +108,7 @@ export default {
         const formData = new FormData();
         formData.append('avatar', this.editedAvatar);
 
-        await axios.post('/api/user/upload-avatar', formData, {
+        await axios.put('https://z8v4553q-8000.asse.devtunnels.ms/api/user/login/', formData, {
           headers: {
             Authorization: `Bearer ${this.$store.state.auth.token}`,
           },
@@ -122,22 +131,29 @@ export default {
       this.isModalOpen = false;
     },
 
+    openFileInput() {
+      this.$refs.fileInput.click();
+    },
     handleFileChange(event) {
-      this.editedAvatar = event.target.files[0];
+      const file = event.target.files[0];
+      if (file) {
+        // Proses file, misalnya dapat digunakan untuk menampilkan gambar sebelum di-upload
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.editedAvatar = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
     },
 
     uploadEditedAvatar() {
       console.log('Avatar edited and uploaded:', this.editedAvatar);
-      this.closeEditModal();
+      this.closeModal();
     },
 
 
   },
 
-  created() {
-    // Fetch user profile data when the component is created
-    // this.fetchUserProfile();
-  },
   mounted() {
     let token = localStorage.getItem('token')
 
@@ -145,16 +161,33 @@ export default {
 
     axios.get('https://z8v4553q-8000.asse.devtunnels.ms/api/user/login/', {
       headers: {
-        Authorization : `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     }
     ).then((res) => {
       this.user = res.data
     })
-    .catch((err) => {
-      console.log(err)
-    })
+      .catch((err) => {
+        console.log(err)
+      })
   }
 };
 </script>
 
+
+
+
+
+
+<!-- <div class="file-input-container">
+          <button id="fileInput" type="file" @change="handleFileChange" class="file-input-btn" accept="image/*">
+            Pilih File
+            <input id="fileInput" type="file" @change="handleFileChange" class="file-input" accept="image/*">
+          </button>
+        </div> -->
+
+
+<!-- // created() {
+  //   // Fetch user profile data when the component is created
+  //   // this.fetchUserProfile();
+  // }, -->
