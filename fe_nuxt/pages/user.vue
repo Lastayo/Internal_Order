@@ -1,5 +1,5 @@
 <template>
-  <div class="flex bg-[#EDF2F7] bg-cover min-h-screen"> 
+  <div class="flex bg-[#EDF2F7] bg-cover min-h-screen">
     <!-- Sidebar -->
     <LayoutsSidebar />
 
@@ -13,12 +13,19 @@
         <div class="mb-4 flex flex-col px-6 pt-4">
           <div class="text-4xl font-bold mb-4">User List</div>
           <div class="flex pt-4">
-            <input type="text" placeholder="Search user"
-              class="px-3 py-1 border pr-16 rounded-md focus:outline-none focus:ring focus:border-blue-300" />
+            <input
+  v-model="searchKeyword"
+  type="text"
+  placeholder="Search User"
+  class="px-3 py-1 border pr-16 rounded-md focus:outline-none focus:ring focus:border-blue-300"
+  @input="handleSearch"
+/>
+
             <button @click="openModal" class="ml-auto px-4 py-2 bg-[#C53030] text-white rounded-md">
               Add User
             </button>
           </div>
+
         </div>
 
         <!-- User Table -->
@@ -35,7 +42,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="user in usersData" :key="user.id_user">
+              <tr v-for="user in paginatedUsers" :key="user.id_user">
                 <td class="py-4 px-4 border-b text-center">{{ user.id_user }}</td>
                 <td class="py-2 px-4 border-b text-center">{{ user.nama }}</td>
                 <td class="py-2 px-4 border-b text-center">{{ user.phone }}</td>
@@ -65,6 +72,7 @@
           <!-- Tombol Next, Previous, dan Nomor Halaman -->
 
         </div>
+        <!-- Tombol Next, Previous, dan Nomor Halaman -->
         <div class="flex justify-center items-center mt-4 space-x-4 pb-4">
           <button @click="prevPage" :disabled="currentPage === 1" class="py-2 text-gray-600 rounded-md">
             Prev
@@ -280,45 +288,54 @@
     </div>
 
 
-   <!-- Modal Update Password -->
-   <div v-if="isPasswordModalOpen" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
-  <div class="bg-white sm:w-full md:w-2/3 lg:w-1/2 xl:w-1/3 px-4 py-4 rounded-xl">
-    <div class="flex justify-end">
-      <button @click="closePasswordModal" class="text-black-200 bg-gray-200 hover:bg-gray-300 px-2 rounded-full">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-    <div class="bg-white px-6 rounded-lg w-full">
-      <form @submit.prevent="updatePassword">
-        <div class="mb-2">
-          <label for="oldPassword" class="block text-md font-medium text-gray-600">
-            Old Password
-          </label>
-          <div class="relative">
-            <input v-model="passwordData.oldPassword" type="password" id="oldPassword" name="oldPassword"
-              class="mt-1 p-2 border-2 rounded-md w-full text-sm" :placeholder="'Password Lama: ' + passwordData.oldPassword" :readonly="true" />
-            <span @click="toggleOldPasswordVisibility" class="absolute inset-y-0 right-0 pr-2 flex items-center cursor-pointer">
-              <i v-if="showOldPassword" class="fas fa-eye-slash"></i>
-              <i v-else class="fas fa-eye"></i>
-            </span>
-          </div>
-        </div>
-        <div class="mb-2">
-          <label for="newPassword" class="block text-md font-medium text-gray-600">
-            New Password
-          </label>
-          <input v-model="passwordData.newPassword" type="password" id="newPassword" name="newPassword"
-            class="text-sm mt-1 p-2 border-2 rounded-md w-full" placeholder="Masukkan Password Baru" required />
-        </div>
-        <div class="flex justify-center">
-          <button type="submit" class="px-4 py-2 bg-[#C53030] text-white rounded-md mb-4 w-full sm:w-auto">
-            Perbarui Password
+    <!-- Modal Update Password -->
+    <div v-if="isPasswordModalOpen" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
+      <div class="bg-white sm:w-full md:w-2/3 lg:w-1/2 xl:w-1/3 px-4 py-4 rounded-xl">
+        <div class="flex justify-end">
+          <button @click="closePasswordModal" class="text-black-200 bg-gray-200 hover:bg-gray-300 px-2 rounded-full">
+            <i class="fas fa-times"></i>
           </button>
         </div>
-      </form>
+        <div class="bg-white px-6 rounded-lg w-full">
+          <form @submit.prevent="updatePassword">
+            <!-- Di dalam formulir updatePassword -->
+            <div class="mb-2 relative">
+              <label for="newPassword" class="block text-md font-medium text-gray-600">
+                New Password
+              </label>
+              <input v-model="passwordData.newPassword" type="password" id="newPassword" name="newPassword"
+                class="text-sm mt-1 p-2 border-2 rounded-md w-full" placeholder="Enter New Password" required />
+              <span @click="toggleNewPasswordVisibility"
+                class="absolute inset-y-0 right-0 pr-2 pt-6 flex items-center cursor-pointer">
+                <i v-if="showNewPassword" class="fas fa-eye-slash"></i>
+                <i v-else class="fas fa-eye"></i>
+              </span>
+            </div>
+            <div class="mb-2 relative">
+              <label for="confirmPassword" class="block text-md font-medium text-gray-600">
+                Confirm Password
+              </label>
+              <input v-model="confirmPassword" type="password" id="confirmPassword" name="confirmPassword"
+                class="text-sm mt-1 p-2 border-2 rounded-md w-full" placeholder="Confirm New Password" required />
+              <span @click="toggleConfirmPasswordVisibility"
+                class="absolute inset-y-0 right-0 pr-2 pt-6 flex items-center cursor-pointer">
+                <i v-if="showConfirmPassword" class="fas fa-eye-slash"></i>
+                <i v-else class="fas fa-eye"></i>
+              </span>
+              <!-- Tampilkan pesan kesalahan jika password tidak sesuai -->
+              <p v-if="passwordMatchError" class="text-sm text-red-500 mt-1">Passwords do not match</p>
+            </div>
+
+
+            <div class="flex justify-center">
+              <button type="submit" class="px-4 py-2 bg-[#C53030] text-white rounded-md mb-4 w-full sm:w-auto">
+                Perbarui Password
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
 
 
 
@@ -334,6 +351,23 @@ export default {
   },
   data() {
     return {
+
+      paginatedUserData: [],
+
+      searchKeyword: '',
+
+      passwordData: {
+        userId: null,
+        oldPassword: '',
+        newPassword: '',
+      },
+
+      passwordMatchError: false,
+
+      showNewPassword: false,
+      showConfirmPassword: false,
+
+      confirmPassword: '',
 
       passwordUser: null,
 
@@ -353,11 +387,11 @@ export default {
       userIdToDelete: null,
 
       isPasswordModalOpen: false,
-    passwordData: {
-      userId: null,
-      oldPassword: '',
-      newPassword: '',
-    },
+      passwordData: {
+        userId: null,
+        oldPassword: '',
+        newPassword: '',
+      },
 
       isRoleModalOpen: false,
       userRoleData: {
@@ -379,13 +413,10 @@ export default {
   },
   computed: {
     totalPages() {
-      return Math.ceil(this.users.length / this.itemsPerPage);
+      return Math.ceil(this.usersData.length / this.itemsPerPage);
     },
     paginatedUsers() {
-      const start = (this.currentPage - 1) * this.itemsPerPage;
-      const end = start + this.itemsPerPage;
-      const filteredUsers = this.users.slice(start, end);
-      return filteredUsers;
+      return this.paginatedUserData;
     },
     pageNumbers() {
       const maxVisiblePages = 10;
@@ -412,68 +443,121 @@ export default {
       return pages;
     },
   },
-  methods: {
+  methods: {  
 
-    toggleOldPasswordVisibility() {
-      this.showOldPassword = !this.showOldPassword;
-      const oldPasswordInput = document.getElementById('oldPassword');
-      if (oldPasswordInput) {
-        oldPasswordInput.type = this.showOldPassword ? 'text' : 'password';
+    handleSearch() {
+    this.currentPage = 1;
+    this.loadDataForCurrentPage();
+  },
+   
+
+    updatePassword() {
+      // Validasi konfirmasi password
+      if (!this.validatePasswordMatch()) {
+        // Tampilkan pesan kesalahan
+        return;
       }
+    },
+
+    validatePasswordMatch() {
+      const match = this.passwordData.newPassword === this.confirmPassword;
+      this.passwordMatchError = !match;
+      return match;
+    },
+
+
+    toggleNewPasswordVisibility() {
+      this.showNewPassword = !this.showNewPassword;
+      const newPasswordInput = document.getElementById('newPassword');
+      if (newPasswordInput) {
+        newPasswordInput.type = this.showNewPassword ? 'text' : 'password';
+      }
+    },
+    toggleConfirmPasswordVisibility() {
+      this.showConfirmPassword = !this.showConfirmPassword;
+      const confirmPasswordInput = document.getElementById('confirmPassword');
+      if (confirmPasswordInput) {
+        confirmPasswordInput.type = this.showConfirmPassword ? 'text' : 'password';
+      }
+    },
+
+    loadDataForCurrentPage() {
+      // Mendapatkan data yang sesuai dengan kata kunci pencarian
+      const filteredUsers = this.usersData.filter(user => 
+        user.nama.toLowerCase().includes(this.searchKeyword.toLowerCase())
+      );
+
+      // Mengatur ulang data pengguna sesuai dengan halaman saat ini dan batas item per halaman
+      const start = (this.currentPage - 1) * this.itemsPerPage;
+      const end = start + this.itemsPerPage;
+
+      // Update paginatedUserData with the sliced data
+      this.paginatedUserData = filteredUsers.slice(start, end);
     },
 
     openPasswordModal(userId) {
-    // Cari data pengguna berdasarkan userId
-    const user = this.usersData.find(user => user.id_user === userId);
+      // Cari data pengguna berdasarkan userId
+      const user = this.usersData.find(user => user.id_user === userId);
 
-    // Setel nilai passwordData.oldPassword dengan password lama dari data pengguna
-    this.passwordData.oldPassword = user.password;
+      // Setel nilai passwordData.oldPassword dengan password lama dari data pengguna
+      this.passwordData.oldPassword = user.password;
 
-    // Buka modal
-    this.isPasswordModalOpen = true;
-  },
+      // Atur userId pada passwordData
+      this.passwordData.userId = userId;
 
-  closePasswordModal() {
-    this.isPasswordModalOpen = false;
-    this.passwordData = {
-      userId: null,
-      oldPassword: '',
-      newPassword: '',
-    };
-  },
+      // Buka modal
+      this.isPasswordModalOpen = true;
+    },
 
-  updatePassword() {
-    // Make an API call to update the password
-    axios
-      .patch(`https://z8v4553q-8000.asse.devtunnels.ms/api/users/${this.passwordData.userId}/password/`, {
-        oldPassword: this.passwordData.oldPassword,
-        newPassword: this.passwordData.newPassword,
-      })
-      .then(response => {
-        // Handle successful response (e.g., show success message)
-        console.log('Password updated successfully:', response.data);
-        // Close the password modal
-        this.closePasswordModal();
-      })
-      .catch(error => {
-        // Handle errors (e.g., show error message)
-        console.error('Failed to update password:', error);
-      });
-  },
+
+    closePasswordModal() {
+      this.isPasswordModalOpen = false;
+      this.passwordData = {
+        userId: null,
+        password:'',
+      };
+    },
+
+    updatePassword() {
+      // Validasi konfirmasi password
+      if (!this.validatePasswordMatch()) {
+        // Tampilkan pesan kesalahan
+        alert('Password confirmation does not match');
+        return;
+      }
+
+      // Lanjutkan dengan pembaruan password jika konfirmasi password cocok
+      axios
+        .put(`https://z8v4553q-8000.asse.devtunnels.ms/api/users/${this.passwordData.userId}/`, {
+          password: this.passwordData.newPassword,
+        })
+        .then(response => {
+          console.log('Password updated successfully:', response.data);
+          this.closePasswordModal();
+        })
+        .catch(error => {
+          console.error('Failed to update password:', error);
+        });
+    },
 
     nextPage() {
-      if (this.currentPage < this.totalPages) {
-        this.currentPage++;
-      }
-    },
-    prevPage() {
-      if (this.currentPage > 1) {
-        this.currentPage--;
-      }
-    },
-    goToPage(pageNumber) {
-      this.currentPage = pageNumber;
-    },
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.loadDataForCurrentPage(); // Tambahkan pemanggilan metode ini
+    }
+  },
+
+  prevPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.loadDataForCurrentPage(); // Tambahkan pemanggilan metode ini
+    }
+  },
+
+  goToPage(pageNumber) {
+    this.currentPage = pageNumber;
+    this.loadDataForCurrentPage(); // Tambahkan pemanggilan metode ini
+  },
     openModal() {
       this.isModalOpen = true;
       // Reset modal state
@@ -623,12 +707,16 @@ export default {
   },
   mounted() {
     axios
+    axios
     .get('https://z8v4553q-8000.asse.devtunnels.ms/api/users/')
     .then((res) => {
-      // Sort usersData by id_user in ascending order
+      console.log('API Response:', res.data); // Log the data received from the API
       this.usersData = res.data.sort((a, b) => a.id_user - b.id_user);
+      this.loadDataForCurrentPage();
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.error('API Request Failed:', err); // Log any errors
+    });
   }
 };
 </script>
