@@ -52,7 +52,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li @click="navigateTo('/login')" :class="{ 'mt-24': dropdowns.projectCharter }"
+                    <li @click="destroyToken('/login')" :class="{ 'mt-24': dropdowns.projectCharter }"
                         class="cursor-pointer flex items-center">
                         <i class="fas fa-right-from-bracket px-4 text-lg"></i>Logout
                     </li>
@@ -92,6 +92,14 @@ export default {
         },
         navigateTo(route) {
             this.$router.push(route);
+        },
+
+        destroyToken() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('refreshToken');
+            localStorage.removeItem('tokenExpiration');
+
+            this.$router.push('/login');
         },
     },
 };

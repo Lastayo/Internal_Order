@@ -182,7 +182,7 @@ Haikal
                                     {{ pageNumber }}
                                 </button>
                             </div>
-                            <button @click="nextPageTimeline" :disabled="currentPageTimeline === totalPagesTimeline"
+                            <button @click="nextPageTimeline" :disabled="currentPageTimeline === totalPagesTimelines"
                                 class="font-semibold text-sm text-gray-400 rounded-md">
                                 Next
                             </button>
@@ -334,6 +334,7 @@ export default {
             }),
 
             currentPageTimeline: 1,
+            totalPagesTimeline: 0,
             pageNumbersTimeline: [],
         };
     },
