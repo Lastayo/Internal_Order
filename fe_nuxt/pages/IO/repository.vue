@@ -29,7 +29,7 @@ jendra
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(project, index) in projects" :key="project.id_project">
+                                <tr v-for="(project, index) in ioProjects" :key="project.id_project">
                                     <td class="py-4 px-4 border-b text-center">{{ index + 1 }}</td>
                                     <td class="py-2 px-4 border-b text-center">{{ project.application_name }}</td>
                                     <td class="py-2 px-4 border-b text-center">{{ project.end_date }}</td>
@@ -81,7 +81,7 @@ jendra
                 </div>
 
                 <!-- Modal for Delete Confirmation -->
-                <div v-if="showDeleteConfirmationModal"
+                <!-- <div v-if="showDeleteConfirmationModal"
                     class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
                     <div class="bg-white px-4 py-4 rounded-xl w-auto">
                         <div class="flex justify-end">
@@ -92,7 +92,7 @@ jendra
                         </div>
                         <div class="bg-white px-8 rounded-lg w-auto">
                             <div class="flex flex-col items-center mb-4">
-                                <!-- Trash Icon -->
+                                
                                 <div
                                     class=" text-[#C53030] text-4xl rounded-full bg-white px-6 py-3 border-[#C53030] border-4 mb-4">
                                     <i class="fas fa-trash-can"></i>
@@ -112,7 +112,7 @@ jendra
                         </div>
 
                     </div>
-                </div>
+                </div> -->
 
 
                 <!-- Step 2 -->
@@ -206,7 +206,6 @@ jendra
                         </div>
                     </div>
 
-
                     <!-- INFO tab timeline -->
                     <div v-if="activeTab === 'timeline'" class="px-6">
                         <div class="overflow-x-auto">
@@ -215,19 +214,16 @@ jendra
                                     <tr>
                                         <th class="py-2 px-6 border-b bg-gray-100">Week</th>
                                         <th class="py-2 px-20 border-b bg-gray-100">Activity</th>
-
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="timeline in projects" :key="project.id_project">
+                                    <tr v-for="timeline in timelines" :key="timeline.id_detail_timeline">
                                         <td class="py-4 px-4 border-b text-center">{{ timeline.weeks }}</td>
                                         <td class="py-2 px-4 border-b text-center">{{ timeline.activity }}</td>
-
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
-
 
                         <div class="mb-6">
                             <div class="flex justify-center items-center mt-4 space-x-4">
@@ -249,12 +245,8 @@ jendra
                                     Next
                                 </button>
                             </div>
-
-
                         </div>
                     </div>
-
-
 
                     <!-- INFO tab detail -->
                     <div v-if="activeTab === 'detail'" class="mt-4 mb-4 px-6">
@@ -271,22 +263,21 @@ jendra
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="mainpower in paginatedMainpower" :key="mainpower.role">
-
-                                        <td class="py-4 pl-24 pr-4 border-b text-center">{{ mainpower.role }}</td>
-                                        <td class="py-2 pl-16 border-b text-center">{{ mainpower.mandaysrate }}</td>
+                                    <tr v-for="detailMainPower in detailMainPower" :key="detailMainPower.id_role">
+                                        <td class="py-4 pl-24 pr-4 border-b text-center">{{ detailMainPower.role }}</td>
+                                        <td class="py-2 pl-16 border-b text-center">{{ detailMainPower.man_days_rate }}</td>
                                         <td class="py-2 pl-4 border-b text-center">
-                                            <input v-model="mainpower.manpower" type="number"
+                                            <input v-model="detailMainPower.man_power" type="number"
                                                 class="w-16 py-1 rounded bg-transparent text-center" placeholder="0">
                                         </td>
                                         <td class="py-2 pl-8 border-b text-center">
-                                            <input v-model="mainpower.days" type="number"
+                                            <input v-model="detailMainPower.days" type="number"
                                                 class="w-16 py-1 rounded bg-transparent text-center" placeholder="0">
                                         </td>
-                                        <td class="py-2 px-4 border-b text-center">{{ calculateTotalManRate(mainpower) }}
+                                        <td class="py-2 px-4 border-b text-center">{{ calculateTotalManRate(detailMainPower) }}
                                         </td>
-                                        <!-- <td class="py-2 px-4 border-b text-center">{{ timeline.action }}</td> -->
                                     </tr>
+
                                 </tbody>
                             </table>
                         </div>
@@ -421,8 +412,6 @@ jendra
                             </div>
                         </form>
                     </div>
-
-
 
                     <!-- Modal untuk upload -->
                     <div v-if="uploadModal.isOpen"
@@ -584,15 +573,18 @@ export default {
     },
     data() {
         return {
+
+            detailMainPower: [],
+
             gambaran: null,
 
             originalIoProject: {},
 
-            originalTimeline:[],
+            originalTimeline: [],
 
-            editingTimelineById:{
-                week:'',
-                activity:'',
+            editingTimelineById: {
+                week: '',
+                activity: '',
             },
 
             editingIoProject: {
@@ -630,7 +622,7 @@ export default {
             activityLogs: [
                 {
                     user: { name: "Nahiyah Zahra", profilePicture: "url_to_profile_picture" },
-                    statusChange: { from: "On going", to: "Finish" },
+                    statusChange: { from: "On going", to: "FINISH" },
                     timestamp: this.getCurrentTime(),
                 },
                 // Data log lainnya...
@@ -653,13 +645,7 @@ export default {
             currentStep: 1,
 
             timelines: [
-                { week: 1, activity: "makan" },
-                { week: 2, activity: "mandi" },
-                { week: 3, activity: "tidur" },
-                { week: 4, activity: "ngoding" },
-                { week: 5, activity: "main" },
-                { week: 4, activity: "ngoding" },
-                { week: 5, activity: "main" },
+
             ],
 
 
@@ -719,6 +705,11 @@ export default {
         },
     },
     methods: {
+
+        calculateTotalManRate(mainpower) {
+            // Sesuaikan logika perhitungan total man rate sesuai kebutuhan Anda
+            return mainpower.mandaysrate * mainpower.manpower * mainpower.days;
+        },
 
         async saveDocument() {
             try {
@@ -809,17 +800,15 @@ export default {
                     // Handle errors
                 });
         },
-        getTimelineById(id_timeline) {
+        getTimelinesByProjectId(id_project) {
             axios
-                .get(`https://z8v4553q-8000.asse.devtunnels.ms/api/timeline/${this.id_project}/`)
+                .get(`https://z8v4553q-8000.asse.devtunnels.ms/api/timeline/?id_project=${id_project}`)
                 .then((response) => {
-                    this.originalTimeline = response.data;
-                    // Set juga editingIoProject agar awalnya sama dengan originalIoProject
-                    this.editingTimeline = { ...response.data };
-                })  
+                    this.timelines = response.data;
+                })
                 .catch((error) => {
-                    console.error('Error fetching project data:', error);
-                    // Handle errors
+                    console.error('Error fetching timelines:', error);
+                    // Tangani kesalahan
                 });
         },
         saveChanges() {
@@ -842,10 +831,6 @@ export default {
                 };
             }
         },
-
-
-
-
 
 
         openUploadModal() {
@@ -960,7 +945,7 @@ export default {
         getStatusClass(status) {
             return {
                 'bg-green-100 rounded-sm px-2 text-green-700 text-sm': status === 'FINISH',
-                'bg-red-100 rounded-sm px-2 text-red-700 text-sm': status === 'ON GOING',
+                'bg-red-100 rounded-sm px-2 text-red-700 text-sm': status === 'ON_GOING',
                 'bg-gray-200 rounded-sm px-2 text-gray-700 text-sm': status === 'DROPPED',
             };
         },
@@ -1000,19 +985,29 @@ export default {
     },
 
     mounted() {
-    axios
-        .get('https://z8v4553q-8000.asse.devtunnels.ms/api/projectinternal/')
-        .then((res) => {
-            // Assuming the response directly contains an array of projects
-            this.ioProjects = res.data; // Change to match the actual structure of your response
+    axios.all([
+        axios.get('https://z8v4553q-8000.asse.devtunnels.ms/api/projectinternal/'),
+        axios.get('https://z8v4553q-8000.asse.devtunnels.ms/api/timeline/'),
+        axios.get('https://z8v4553q-8000.asse.devtunnels.ms/api/detailmainpower/')
+    ])
+        .then(axios.spread((projectRes, timelineRes, detailMainPowerRes) => {
+            console.log('Project Data:', projectRes.data);
+            console.log('Timeline Data:', timelineRes.data);
+            console.log('Detail Main Power Data:', detailMainPowerRes.data);
 
-            // Set default selected project to the first project in the list
+            this.ioProjects = projectRes.data.projects;
+            this.timelines = timelineRes.data;
+            this.detailMainPower = detailMainPowerRes.data;
+
             if (this.ioProjects.length > 0) {
                 this.selectedIoProject = this.ioProjects[0];
             }
-        })
+        }))
         .catch((err) => console.error(err));
 }
+
+
+
 
 
 };

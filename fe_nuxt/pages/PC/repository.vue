@@ -10,73 +10,71 @@
 
             <div class="IOform flex-1 bg-white px-8 pt-6 overflow-hidden flex flex-col m-10 ml-12 rounded-2xl shadow-md">
                 <!-- Step 1 -->
-                <div v-if="currentStep === 1" class="pt-6">
-                    <div class="mb-4 flex flex-col pt-4">
-                        <div class="text-4xl font-bold mb-4">Repository</div>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full bg-white border-collapse rounded-md">
-                            <thead>
-                                <tr>
-                                    <th class="py-2 px-4 border-b bg-gray-100">No</th>
-                                    <th class="py-2 px-4 border-b bg-gray-100">App Name</th>
-                                    <th class="py-2 px-4 border-b bg-gray-100">IWO</th>
-                                    <th class="py-2 px-4 border-b bg-gray-100">Customer</th>
-                                    <th class="py-2 px-4 border-b bg-gray-100">BU Delivery</th>
-                                    <th class="py-2 px-4 border-b bg-gray-100">CreatedAt</th>
-                                    <th class="py-2 px-4 border-b bg-gray-100">Status</th>
-                                    <th class="py-2 px-4 border-b bg-gray-100">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="pcProject in paginatedpcProjects" :key="pcProject.id">
-                                    <td class="py-4 px-4 border-b text-center">{{ pcProject.id }}</td>
-                                    <td class="py-2 px-4 border-b text-center">{{ pcProject.appName }}</td>
-                                    <td class="py-2 px-4 border-b text-center">{{ pcProject.IWO }}</td>
-                                    <td class="py-2 px-4 border-b text-center">{{ pcProject.Customer }}</td>
-                                    <td class="py-2 px-4 border-b text-center">{{ pcProject.BUDelivery }}</td>
-                                    <td class="py-2 px-4 border-b text-center">{{ pcProject.CreatedAt }}</td>
-                                    <td class="py-2 px-4 border-b text-center">
-                                        <span :class="getStatusClass(pcProject.status)">{{ pcProject.status }}</span>
-                                    </td>
-                                    <td class="py-2 px-4 border-b text-center">
-                                        <button v-if="pcProject.status !== ''" class="info mr-2"
-                                            @click="goToStep2(pcProject)">
-                                            <i class="text-gray-400 fas fa-info-circle hover:text-gray-700 text-lg"></i>
-                                        </button>
-                                        <button v-if="pcProject.status !== 'DONE'" class="edit mr-2"
-                                            @click="goToStep3(pcProject)">
-                                            <i class="text-gray-400 fas fa-edit hover:text-gray-700 text-lg"></i>
-                                        </button>
-                                        <button v-if="pcProject.status !== ''" class="mr-2"
-                                            @click="confirmDelete(pcProject.id)">
-                                            <i class="text-gray-400 fas fa-print hover:text-gray-700 text-lg"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- Tombol Next, Previous, dan Nomor Halaman -->
-                    <div class="flex justify-center items-center mt-4 space-x-4">
-                        <button @click="prevPage" :disabled="currentPage === 1" class="py-2 text-gray-600 rounded-md">
-                            Prev
-                        </button>
-                        <div class="flex items-center space-x-2">
-                            <button v-for="pageNumber in pageNumbers" :key="pageNumber" @click="goToPage(pageNumber)"
-                                :class="{
-                                    'bg-[#C53030] text-white rounded-lg py-2 px-4 text-md': pageNumber === currentPage,
-                                    'text-sm text-black-600 border-2 rounded-lg py-2 px-4': pageNumber !== currentPage,
-                                }">
-                                {{ pageNumber }}
-                            </button>
-                        </div>
-                        <button @click="nextPage" :disabled="currentPage === totalPages"
-                            class="py-8 text-black-600 rounded-md">
-                            Next
-                        </button>
-                    </div>
-                </div>
+                <!-- Step 1 -->
+        <div v-if="currentStep === 1" class="pt-6">
+          <div class="mb-4 flex flex-col pt-4">
+            <div class="text-4xl font-bold mb-4">Repository</div>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="min-w-full bg-white border-collapse rounded-md">
+              <thead>
+                <tr>
+                  <th class="py-2 px-4 border-b bg-gray-100">No</th>
+                  <th class="py-2 px-4 border-b bg-gray-100">App Name</th>
+                  <th class="py-2 px-4 border-b bg-gray-100">IWO</th>
+                  <th class="py-2 px-4 border-b bg-gray-100">Customer</th>
+                  <th class="py-2 px-4 border-b bg-gray-100">BU Delivery</th>
+                  <th class="py-2 px-4 border-b bg-gray-100">CreatedAt</th>
+                  <th class="py-2 px-4 border-b bg-gray-100">Status</th>
+                  <th class="py-2 px-4 border-b bg-gray-100">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(pcProject, index) in paginatedpcProjects" :key="index">
+                  <td class="py-4 px-4 border-b text-center">{{ index + 1 }}</td>
+                  <td class="py-2 px-4 border-b text-center">{{ pcProject.project_name }}</td>
+                  <td class="py-2 px-4 border-b text-center">{{ pcProject.iwo }}</td>
+                  <td class="py-2 px-4 border-b text-center">{{ pcProject.customer }}</td>
+                  <td class="py-2 px-4 border-b text-center">{{ pcProject.bu_delivery }}</td>
+                  <td class="py-2 px-4 border-b text-center">{{ pcProject.createdat }}</td>
+                  <td class="py-2 px-4 border-b text-center">
+                    <span :class="getStatusClass(pcProject.status)">{{ pcProject.status }}</span>
+                  </td>
+                  <td class="py-2 px-4 border-b text-center">
+                    <button v-if="pcProject.status !== ''" class="info mr-2" @click="goToStep2(pcProject)">
+                      <i class="text-gray-400 fas fa-info-circle hover:text-gray-700 text-lg"></i>
+                    </button>
+                    <button v-if="pcProject.status !== 'done'" class="edit mr-2" @click="goToStep3(pcProject)">
+                      <i class="text-gray-400 fas fa-edit hover:text-gray-700 text-lg"></i>
+                    </button>
+                    <button v-if="pcProject.status !== ''" class="mr-2" @click="confirmDelete(pcProject.id_charter)">
+                      <i class="text-gray-400 fas fa-print hover:text-gray-700 text-lg"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- Tombol Next, Previous, dan Nomor Halaman -->
+          <div class="flex justify-center items-center mt-4 space-x-4">
+            <button @click="prevPage" :disabled="currentPage === 1" class="py-2 text-gray-600 rounded-md">
+              Prev
+            </button>
+            <div class="flex items-center space-x-2">
+              <button v-for="pageNumber in pageNumbers" :key="pageNumber" @click="goToPage(pageNumber)"
+                :class="{
+                  'bg-[#C53030] text-white rounded-lg py-2 px-4 text-md': pageNumber === currentPage,
+                  'text-sm text-black-600 border-2 rounded-lg py-2 px-4': pageNumber !== currentPage,
+                }">
+                {{ pageNumber }}
+              </button>
+            </div>
+            <button @click="nextPage" :disabled="currentPage === totalPages" class="py-8 text-black-600 rounded-md">
+              Next
+            </button>
+          </div>
+        </div>
+      
 
                 <!-- Step 2 -->
                 <div v-if="currentStep === 2">
@@ -2070,6 +2068,17 @@ export default {
             }
         },
     },
+    mounted() {
+        axios
+            .get('https://z8v4553q-8000.asse.devtunnels.ms/api/projectcharter/')
+            .then((res) => {
+                this.pcProjects = res.data; // Ubah sesuai struktur respons aktual Anda
+                if (this.pcProjects.length > 0) {
+                    this.selectedPcProject = this.pcProjects[0];
+                }
+            })
+            .catch((err) => console.error(err));
+    }
 };
 </script>
 

@@ -5,7 +5,7 @@
     <div class="flex-1 flex flex-col overflow-hidden">
       <LayoutsNavbar />
       <div class="py-8 px-12 ">
-        <div class="w-full flex flex-col p-5 rounded" :style="{ 'background-image': 'url(/assets/dashboard.png)' }">
+        <div class="w-full flex flex-col bg-cover p-5 rounded" :style="{ 'background-image': 'url(/assets/spand3.jpg)' }">
           <h1 class="text-white font-semibold text-md md:text-xl lg:text-2xl">Welcome Back!</h1>
           <h3 class="text-white font-bold text-2xl md:text-3xl lg:text-4xl">{{ user.nama }}</h3>
         </div>
