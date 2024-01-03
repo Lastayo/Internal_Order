@@ -56,9 +56,9 @@ Haikal
                                 <select name="status" v-model="postData.status"
                                     class="w-full px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 rounded-md sm:text-sm">
                                     <option value="" disabled selected>Select Status</option>
-                                    <option value="on_going">On Going</option>
-                                    <option value="finish">Finish</option>
-                                    <option value="dropped">Dropped</option>
+                                    <option value="ON_GOING">On Going</option>
+                                    <option value="FINISH">Finish</option>
+                                    <option value="DROPPED">Dropped</option>
                                 </select>
                             </div>
 
@@ -96,7 +96,7 @@ Haikal
                             </div>
                         </div>
 
-                        <button @click="nextStep(); generateTimelines()"
+                        <button @click="submit_order(); nextStep(); generateTimelines()"
                             class="ml-auto px-10 h-10 text-sm bg-[#C53030] text-white rounded-md">
                             Next
                         </button>
@@ -120,20 +120,19 @@ Haikal
                             </thead>
                             <tbody>
                                 <tr v-for="timeline in paginatedTimelines" :key="timeline.week">
-                                    {{ timeline }}
+                                    <!-- {{ timeline }} -->
                                     <td class="py-4 px-6 border-b text-center">{{ timeline.week }}</td>
                                     <td class="py-2 px-6 border-b text-center">{{ timeline.activity }}</td>
                                     <td class="py-2 px-6 border-b text-center">
-                                        <button class="mr-2">
+                                        <button class="mr-2" @click="openEditModal(timeline)">
                                             <!-- Edit Icon -->
-                                            <i class="fas fa-edit" @click="openEditModal(timeline)"></i>
+                                            <i class="fas fa-edit"></i>
                                         </button>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-
 
                     <div v-if="isEditModalOpen"
                         class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
@@ -156,7 +155,7 @@ Haikal
                                     </div>
 
                                     <div class="flex justify-center">
-                                        <button @click="closePasswordModal" type="submit"
+                                        <button @click="addActivity" type="submit"
                                             class="px-6 py-2 bg-[#C53030] text-white rounded-md my-4 w-full sm:w-auto">
                                             Add Activity
                                         </button>
@@ -193,7 +192,7 @@ Haikal
                                 class="w-full sm:w-auto px-10 ml-0 sm:ml-5 mb-2 sm:mb-0 h-10 text-sm bg-[#C53030] text-white rounded-md">
                                 Back
                             </button>
-                            <button @click="nextStep"
+                            <button @click="submit_timeline(); nextStep()"
                                 class="w-full sm:w-auto px-10 h-10 text-sm bg-[#C53030] text-white rounded-md">
                                 Next
                             </button>
@@ -270,7 +269,7 @@ Haikal
                                 class="w-full sm:w-auto px-10 ml-0 sm:ml-5 mb-2 sm:mb-0 h-10 text-sm bg-[#C53030] text-white rounded-md">
                                 Back
                             </button>
-                            <button @click="submit"
+                            <button @click="submit_mainpower"
                                 class="w-full sm:w-auto px-10 h-10 text-sm bg-[#C53030] text-white rounded-md">
                                 Submit
                             </button>
@@ -280,13 +279,12 @@ Haikal
 
             </div>
 
-
-
         </div>
     </div>
 </template>
 
 <script>
+import { faRupiahSign } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 
 export default {
@@ -348,7 +346,6 @@ export default {
         paginatedTimelines() {
             const start = (this.currentPageTimeline - 1) * this.itemsPerPage;
             const end = start + this.itemsPerPage;
-            console.log(this.timelines)
             const filteredTimelines = this.timelines.slice(start, end);
             return filteredTimelines;
         },
@@ -363,7 +360,19 @@ export default {
             return filteredMainpowers;
         },
 
-        pageNumbers() {
+        pageNumbersTimeline() {
+            const pages = [];
+            const maxVisiblePages = 10;
+
+            if (this.totalPages <= maxVisiblePages) {
+                for (let i = 1; i <= this.totalPages; i++) {
+                    pages.push(i);
+                }
+            }
+            return pages;
+        },
+
+        pageNumbersMainpower() {
             const pages = [];
             const maxVisiblePages = 10;
 
@@ -390,7 +399,34 @@ export default {
             this.postData.lld = file; // Menggunakan lld sesuai properti yang digunakan
         },
 
-        submit() {
+        addActivity() {
+            // Dapatkan data aktivitas dari modal
+            const newActivity = this.timelineEditData.activity;
+
+            // Pastikan bahwa newActivity tidak kosong
+            if (newActivity.trim() !== "") {
+                // Tambahkan data ke timeline untuk minggu yang sesuai
+                const timelineIndex = this.timelineEditData.timelineIndex;
+
+                if (timelineIndex !== null && timelineIndex !== undefined) {
+                    this.timelines[timelineIndex].activity = newActivity;
+                }
+
+                // Tutup modal
+                this.isEditModalOpen = false;
+
+                // Bersihkan data modal
+                this.timelineEditData = {
+                    timelineIndex: null,
+                    activity: "",
+                };
+            } else {
+                // Tampilkan pesan kesalahan jika newActivity kosong
+                alert("Activity cannot be empty!");
+            }
+        },
+
+        submit_order() {
             const formData = new FormData();
             formData.append('requester', this.postData.requester);
             formData.append('application_name', this.postData.application_name);
@@ -417,6 +453,115 @@ export default {
                     console.error('POST error:', err);
 
                     // Log detail respons server
+                    if (err.response) {
+                        console.error('Respons Server:', err.response.data);
+                        console.error('Status Code:', err.response.status);
+                        console.error('Headers:', err.response.headers);
+                    }
+                });
+        },
+
+        // submit_timeline() {
+        // const dataArray = [
+        //     { key: 'activity', value: (this.postData.activity) },
+        //     { key: 'weeks', value: (this.postData.weeks) },
+        //     { key: 'user', value: (this.postData.user) },
+        // ];
+
+        // let requestData = {};
+
+        // dataArray.forEach(item => {
+        //     requestData[item.key] = item.value;
+        // });
+
+        // console.log('Mengirimkan data:', requestData);
+
+        // this.axiosInstance
+        //     .post('https://z8v4553q-8000.asse.devtunnels.ms/api/timeline/', requestData, {
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         },
+        //     })
+        //     .then((res) => {
+        //         console.log('POST berhasil:', res.data);
+        //     })
+        //     .catch((err) => {
+        //         console.error('POST error:', err);
+
+        //         if (err.response) {
+        //             console.error('Respons Server:', err.response.data);
+        //             console.error('Status Code:', err.response.status);
+        //             console.error('Headers:', err.response.headers);
+        //         }
+        //     });
+        // }
+
+        // const payload = this.timelines.map(timeline => ({
+        //     weeks: timeline.weeks,
+        //     activity: timeline.activity,
+        //     id_user: this.postData.user,
+        //     id_project: this.postData.project, // Ubah sesuai dengan kebutuhan, atau ambil dari sumber data yang benar
+        // }));
+
+        // const timelineData = {
+        //     timelines: payload,
+        // };
+
+        submit_timeline() {
+            console.log(this.timelines);
+
+            const ArrayData = this.timelines.map(timeline => ({
+                activity: timeline.activity,
+                weeks: timeline.week,
+                id_user: this.postData.user,
+            }));
+
+            console.log('Mengirimkan data:', ArrayData);
+
+            this.axiosInstance
+                .post('https://z8v4553q-8000.asse.devtunnels.ms/api/timeline/', ArrayData, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+                .then((res) => {
+                    console.log('POST berhasil:', res.data);
+                })
+                .catch((err) => {
+                    console.error('POST error:', err);
+
+                    if (err.response) {
+                        console.error('Respons Server:', err.response.data);
+                        console.error('Status Code:', err.response.status);
+                        console.error('Headers:', err.response.headers);
+                    }
+                });
+        },
+
+        submit_mainpower() {
+            console.log(this.mainpowers);
+
+            const ArrayData = this.mainpowers.map(mainpower => ({
+                role: mainpower.role,
+                days: mainpower.day,
+                man_days_rate: mainpower.man_days_rate,
+                man_power: mainpower.man_power
+            }))
+
+            console.log('Mengirimkan data:', ArrayData);
+
+            this.axiosInstance
+                .post('https://z8v4553q-8000.asse.devtunnels.ms/api/detailmainpower/', ArrayData, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+                .then((res) => {
+                    console.log('POST berhasil:', res.data);
+                })
+                .catch((err) => {
+                    console.error('POST error:', err);
+
                     if (err.response) {
                         console.error('Respons Server:', err.response.data);
                         console.error('Status Code:', err.response.status);
@@ -453,6 +598,22 @@ export default {
 
         goToPageTimeline(pageNumber) {
             this.currentPageTimeline = pageNumber;
+        },
+
+        nextPageMainpower() {
+            if (this.currentPageMainpower < this.totalPagesMainpowers) {
+                this.currentPageMainpower++;
+            }
+        },
+
+        prevPageMainpower() {
+            if (this.currentPageMainpower > 1) {
+                this.currentPageMainpower--;
+            }
+        },
+
+        goToPageMainpower(pageNumber) {
+            this.currentPageMainpower = pageNumber;
         },
 
         nextPage() {
@@ -505,9 +666,11 @@ export default {
         },
 
         openEditModal(timeline) {
+            const timelineIndex = this.timelines.findIndex(t => t.week === timeline.week);
             this.timelineEditData = {
-                // timelineWeek: timeline.week,
+                timelineIndex: timelineIndex,
                 activity: timeline.activity,
+                week: timeline.week, // Add this line to store the week value
             };
             this.isEditModalOpen = true;
         },
@@ -520,16 +683,18 @@ export default {
         },
 
         updateTimeline() {
-            const timelineIndex = this.timelines.findIndex(timeline => timeline.week === this.timelineEditData.timelineWeek);
+            const timelineIndex = this.timelineEditData.timelineIndex;
 
-            if (timelineIndex !== -1) {
+            if (timelineIndex !== null && timelineIndex !== undefined) {
                 this.timelines[timelineIndex].activity = this.timelineEditData.activity;
+                this.timelines[timelineIndex].week = this.timelineEditData.week; // Update the week value
             }
 
             this.isEditModalOpen = false;
             this.timelineEditData = {
-                timelineWeek: null,
+                timelineIndex: null,
                 activity: "",
+                week: null,
             };
         },
 
@@ -545,6 +710,49 @@ export default {
             return manDaysRate * manPower * days;
         },
     },
+
+    mounted() {
+        // let token = localStorage.getItem('token')
+
+        // console.log(token)
+
+        // axios.get('https://z8v4553q-8000.asse.devtunnels.ms/api/projectinternal/login/', {
+        //     headers: {
+        //         "Authorization": `Bearer ${token}`
+        //     },
+        // }
+        // ).then((res) => {
+        //     this.user = res.data
+        //     console.log(res)
+        // })
+        //     .catch((err) => {
+        //         console.log(err)
+        //     })
+
+        let token = localStorage.getItem('token');
+
+        console.log(token);
+
+        this.axiosInstance
+            .get('https://z8v4553q-8000.asse.devtunnels.ms/api/projectinternal/login/', {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+            })
+            .then((res) => {
+                this.user = res.data;
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+
+                // Tangani kesalahan terkait token di sini
+                if (err.response && err.response.data && err.response.data.detail === "Given token not valid for any token type") {
+                    // Masalah token, mungkin lakukan penyegaran atau arahkan ke halaman login
+                    console.log("Masalah token. Lakukan penyegaran atau arahkan ke halaman login.");
+                }
+            });
+    }
 };
 </script>
 
